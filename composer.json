@@ -1,0 +1,17 @@
+{
+  "name": "blueoakinteractive/boi_ci",
+  "description": "Continuous integration scripts for Blue Oak Interactive",
+  "require": {
+    "symfony/console": "^3.2",
+    "symfony/filesystem": "^3.2",
+    "symfony/yaml": "^3.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "BOI_CI\\": "src/"
+    }
+  },
+  "bin": [
+    "bin/boici"
+  ]
+}

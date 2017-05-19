@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+if (file_exists($path = __DIR__ . '/../vendor/autoload.php')
+  || file_exists($path = __DIR__ . '/../../autoload.php')
+  || file_exists($path = __DIR__ . '/../../../autoload.php')
+) {
+  include_once($path);
+} else {
+  throw new \Exception('Could not locate autoload.php');
+}
+
+use BOI_CI\BOICI;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+$input = new ArgvInput($_SERVER['argv']);
+$output = new ConsoleOutput();
+
+$boi_ci = new BOICI($input, $output);
+$status_code = $boi_ci->run($input, $output);
+exit($status_code);
