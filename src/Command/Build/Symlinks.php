@@ -3,11 +3,9 @@
 namespace BOI_CI\Command\Build;
 
 use BOI_CI\Command\BaseCommand;
-use Drupal\Driver\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class Symlinks extends BaseCommand
 {
