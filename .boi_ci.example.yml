@@ -1,0 +1,10 @@
+symlinks:
+  settings:
+    source: local/settings.php
+    destination: www/sites/default/settings.php
+  settings.local:
+    source: local/settings.local.php
+    destination: www/sites/default/settings.local.php
+  files:
+    source: local/files
+    destination: www/sites/default/files
