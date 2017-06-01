@@ -9,8 +9,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Symlinks extends BaseCommand
 {
-  private $dir;
-
   /**
    * SevenLocal constructor.
    * @param null|string $name
@@ -51,18 +49,19 @@ class Symlinks extends BaseCommand
         }
 
         // Validate the destination root exits.
-        $destination_info = pathinfo($symlink['destination']);
+        $destination = $this->config['build']['root'] . '/' . $symlink['destination'];
+        $destination_info = pathinfo($destination);
         if (!$fs->exists($destination_info['dirname'])) {
           throw new \Exception('Destination directory must already exist for "' . $key . '" symlink') ;
         }
 
         // Determine the source as a relative path
         // from the destination.
-        $destination_parts = explode('/', $symlink['destination']);
+        $destination_parts = explode('/', $destination);
         $source = str_repeat('../', count($destination_parts) - 1) . $symlink['source'];
 
         // Create the symlink.
-        $fs->symlink($source, $symlink['destination']);
+        $fs->symlink($source, $destination);
         $output->writeln('Symlink created for ' . $key);
       }
     }
