@@ -3,6 +3,7 @@
   "description": "Continuous integration scripts for Blue Oak Interactive",
   "require": {
     "symfony/console": "^3.2",
+    "symfony/process": "^3.2",
     "symfony/filesystem": "^3.2",
     "symfony/yaml": "^3.2"
   },
