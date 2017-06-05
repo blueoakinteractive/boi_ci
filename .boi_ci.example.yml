@@ -1,10 +1,30 @@
+# Required build root directory.
+build:
+  root: www
+
+# Required temporary directory for build tasks.
+temp: /tmp
+
+# Symbolic links to create for the project
+# Do not include the build root defined
+# above in the destination.
 symlinks:
   settings:
     source: local/settings.php
-    destination: www/sites/default/settings.php
+    destination: sites/default/settings.php
   settings.local:
     source: local/settings.local.php
-    destination: www/sites/default/settings.local.php
+    destination: sites/default/settings.local.php
   files:
     source: local/files
-    destination: www/sites/default/files
+    destination: sites/default/files
+
+# Environments for deployments.
+environments:
+  production:
+    git:
+      uri: git@gitlab.com:[namespace]/[project].git
+      branch: master
+    # Paths to be excluded from builds during deployments.
+    exclude:
+      - sites/default
