@@ -23,7 +23,7 @@ class BaseCommand extends Command
     }
 
     // Verify build root is defined and writable.
-    if (empty($this->config['build']['root']) || !file_exists($this->config['build']['root'])) {
+    if (empty($this->config['build']['root']) || (!file_exists($this->config['build']['root']) && !mkdir($this->config['build']['root']) )) {
       throw new \Exception("The build root directory is not defined or does not exist in your config file.");
     }
 
