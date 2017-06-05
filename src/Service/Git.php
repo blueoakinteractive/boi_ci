@@ -24,6 +24,10 @@ class Git extends Shell {
     return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir log --format=%B --no-merges -n 1");
   }
 
+  public function gitStatus() {
+    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir status");
+  }
+
   public function gitDiff() {
     return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir diff");
   }
