@@ -37,6 +37,10 @@ class Git extends Shell {
     return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir commit -m \"$message\"");
   }
 
+  public function gitPush($remote, $branch) {
+    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir push $remote $branch");
+  }
+
   public function gitClone($repo, $branch, $dir) {
     return $this->execute("$this->git clone $repo --branch=$branch $this->work_tree");
   }
