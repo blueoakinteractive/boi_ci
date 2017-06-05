@@ -78,11 +78,14 @@ class Git extends BaseCommand
       throw new \Exception('Deploy canceled, no changes to deploy.');
     }
 
+    // Add all changed files to be committed.
     $output->writeln('Committing changes');
     $git_remote->gitAdd('.');
 
-    $git_remote->gitCommit("BOI CI commit $last_commit_message");
+    // Create a commit message based on the last local commit.
+    $git_remote->gitCommit("CI BOT Commit: $last_commit_message");
 
+    // Push changes to the artifact repo.
     $output->writeln('Pushing changes to artfact repo');
     $git_remote->gitPush("origin", $branch);
 
