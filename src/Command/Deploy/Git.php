@@ -86,11 +86,11 @@ class Git extends BaseCommand
     $git_remote->gitCommit("CI BOT Commit: $last_commit_message");
 
     // Push changes to the artifact repo.
-    $output->writeln('Pushing changes to artfact repo');
+    $output->writeln('Pushing changes to artifact repo');
     $git_remote->gitPush("origin", $branch);
 
     // Delete the temporary path.
-    unlink($path);
+    rmdir($path);
     $output->writeln('Deploy complete');
   }
 }
