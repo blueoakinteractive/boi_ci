@@ -13,6 +13,6 @@
     }
   },
   "bin": [
-    "boi_ci"
+    "bin/boi_ci"
   ]
 }
