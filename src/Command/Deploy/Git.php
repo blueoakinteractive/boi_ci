@@ -71,12 +71,13 @@ class Git extends BaseCommand
     $output->writeln('Committing changes');
     $git_remote->gitAdd('.');
 
-    // commit
     $git_remote->gitCommit("BOI CI commit $last_commit_message");
 
     $output->writeln('Pushing changes to artfact repo');
     $git_remote->gitPush("origin", $branch);
 
+    // Delete the temporary path.
+    unlink($path);
     $output->writeln('Deploy complete');
   }
 }
