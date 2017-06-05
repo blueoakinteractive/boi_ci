@@ -1,4 +1,6 @@
-# Required build root directory.
+# Required build root directory. This should match
+# the folder that composer.json is using in installer
+# paths.
 build:
   root: www
 
