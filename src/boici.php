@@ -48,6 +48,7 @@ class BOICI {
   {
     return [
       new Command\Build\Symlinks(),
+      new Command\Build\Tasks(),
       new Command\Deploy\Git()
     ];
   }
