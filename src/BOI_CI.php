@@ -7,17 +7,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use BOI_CI\Command;
 
 /**
- * Class BOICI
+ * Class BOI_CI
  * @package BOI_CI
  */
-class BOICI {
+class BOI_CI {
   /**
    * @var \Symfony\Component\Console\Application
    */
   private $app;
 
   /**
-   * BOICI constructor.
+   * BOI_CI constructor.
    * @param \Symfony\Component\Console\Input\InputInterface|NULL $input
    * @param \Symfony\Component\Console\Output\OutputInterface|NULL $output
    */

@@ -9,13 +9,13 @@ if (file_exists($path = __DIR__ . '/../vendor/autoload.php')
   throw new \Exception('Could not locate autoload.php');
 }
 
-use BOI_CI\BOICI;
+use BOI_CI\BOI_CI;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 $input = new ArgvInput($_SERVER['argv']);
 $output = new ConsoleOutput();
 
-$boi_ci = new BOICI($input, $output);
+$boi_ci = new BOI_CI($input, $output);
 $status_code = $boi_ci->run($input, $output);
 exit($status_code);
