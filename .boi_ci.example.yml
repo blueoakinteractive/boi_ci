@@ -30,3 +30,8 @@ environments:
     # Paths to be excluded from builds during deployments.
     exclude:
       - sites/default
+    # Tasks to be executed when running "boici build:tasks production"
+    tasks:
+      npm:
+        directory: sites/all/themes/custom/custom_theme
+        command: npm install
