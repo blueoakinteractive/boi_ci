@@ -5,7 +5,6 @@ namespace BOI_CI\Command\Deploy;
 use BOI_CI\Command\BaseCommand;
 use BOI_CI\Service\Git as GitCommand;
 use BOI_CI\Service\Rsync as RsyncCommand;
-use Drupal\Driver\Exception\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
