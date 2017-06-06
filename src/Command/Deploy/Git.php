@@ -53,6 +53,7 @@ class Git extends BaseCommand
     $output->writeln("Deploying project to a git artifact repo's '$branch' branch'");
     $output->writeln("Cloning artifact repo from $uri");
     $git_remote = new GitCommand($path);
+    $git_remote->setTimeout(null);
     $git_remote->gitClone($uri, $branch, $path);
 
     // Set require configuration options to push commits.
