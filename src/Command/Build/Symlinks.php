@@ -49,26 +49,38 @@ class Symlinks extends BaseCommand
         }
 
 
-        // Determine the actual destination path.
-        if (strpos('~/', $symlink['destination']) === 0 || strpos('/', $symlink['destination']) === 0) {
-          // If the root of the destination references a user or absolute path
-          // don't alter the destination.
+        // Determine the destination path and if it's relative
+        // or absolute.
+        if (strpos($symlink['destination'], '~/') === 0 ) {
+          // If the destination is a user path replace it with the
+          // home directory (ie: /Users/user/).
+          $destination = str_replace('~/', getenv('HOME') . '/', $symlink['destination']);
+          $absolute = TRUE;
+        } else if (strpos($symlink['destination'], '/') === 0) {
+          // If the root of the destination references an absolute path.
           $destination = $symlink['destination'];
+          $absolute = TRUE;
         } else {
           // Otherwise, the path is relative to the build root.
           $destination = $this->config['build']['root'] . '/' . $symlink['destination'];
+          $absolute = FALSE;
         }
 
-        // Validate the destination root exits.
+        // Validate the destination path exits.
         $destination_info = pathinfo($destination);
         if (!$fs->exists($destination_info['dirname'])) {
           throw new \Exception('Destination directory must already exist for "' . $key . '" symlink') ;
         }
 
-        // Determine the source as a relative path
-        // from the destination.
-        $destination_parts = explode('/', $destination);
-        $source = str_repeat('../', count($destination_parts) - 1) . $symlink['source'];
+        if (!empty($absolute)) {
+          // Build the absolute path for the source.
+          $source = $this->config['root'] . '/' . $symlink['source'];
+        } else {
+          // Build the relative path for the source from the
+          // project root.
+          $destination_parts = explode('/', $destination);
+          $source = str_repeat('../', count($destination_parts) - 1) . $symlink['source'];
+        }
 
         // Create the symlink.
         $fs->symlink($source, $destination);
