@@ -50,6 +50,6 @@ class Git extends Shell {
   }
 
   public function gitConfig($option, $value) {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir $option=$value");
+    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir config $option=$value");
   }
 }
