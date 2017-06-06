@@ -33,7 +33,7 @@ class Tasks extends BaseCommand
     }
 
     foreach ($this->config['environments'][$environment]['tasks'] as $key => $task) {
-      if (empty($task['directory']) || empty($task['command'])) {
+      if (!isset($task['directory']) || empty($task['command'])) {
         throw new \Exception("Please define a 'directory' and 'command' for your $key task");
       }
       $output->writeln("Executing $key task for $environment environment");
