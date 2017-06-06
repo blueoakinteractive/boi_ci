@@ -66,10 +66,17 @@ class Symlinks extends BaseCommand
           $absolute = FALSE;
         }
 
-        // Validate the destination path exits.
+        // Parse the destination info.
         $destination_info = pathinfo($destination);
+
+        // If the mkdir flag is set, create the destination dir.
+        if (!empty($symlink['mkdir'])) {
+          $fs->mkdir($destination_info['dirname']);
+        }
+
+        // Validate the destination path exits.
         if (!$fs->exists($destination_info['dirname'])) {
-          throw new \Exception('Destination directory must already exist for "' . $key . '" symlink') ;
+          throw new \Exception('Destination directory does not exist and cannot be created"' . $key . '" symlink') ;
         }
 
         if (!empty($absolute)) {
