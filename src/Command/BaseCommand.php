@@ -33,6 +33,9 @@ class BaseCommand extends Command
     }
   }
 
+  /**
+   * Sets the configuration from a .boi_ci.yml file.
+   */
   private function setConfig()
   {
     $fs = new Filesystem();

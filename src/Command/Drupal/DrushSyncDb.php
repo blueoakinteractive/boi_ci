@@ -2,7 +2,6 @@
 
 namespace BOI_CI\Command\Drupal;
 
-use Behat\Mink\Exception\Exception;
 use BOI_CI\Command\BaseCommand;
 use BOI_CI\Service\Drush as DrushService;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,14 +25,20 @@ class DrushSyncDb extends BaseCommand
       $alias = '@' . $alias;
     }
 
+    // Instantiate the drush service helper.
     $drush = new DrushService($this->build_root);
-    $drush->setAlias($alias);
-    $status = json_decode($drush->drush('status --format=json'));
 
+    // Set the drush alias for remote database.
+    $drush->setAlias($alias);
+
+    // Make sure we can locate the drupal version.
+    $status = json_decode($drush->drush('status --format=json'));
     if (empty($status->{'drupal-version'})) {
       throw new \Exception('Unable to locate drupal root of the remote site. Please check your alias.');
     }
 
+    // Execute the method to synchronize from the remote
+    // database to the local one.
     $drush->syncDatabase();
   }
 }

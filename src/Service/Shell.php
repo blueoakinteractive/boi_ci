@@ -18,26 +18,54 @@ class Shell extends BaseService
     parent::__construct();
   }
 
+  /**
+   * Sets working dir for \Symfony\Component\Process\Process.
+   * @param $dir
+   */
   public function setDir($dir) {
     $this->dir = $dir;
   }
 
+  /**
+   * Sets environment variables for \Symfony\Component\Process\Process.
+   * @param $env
+   */
   public function setEnv($env) {
    $this->env = $env;
   }
 
+  /**
+   * Sets input for \Symfony\Component\Process\Process.
+   * @param $input
+   */
   public function setInput($input) {
     $this->input = $input;
   }
 
+  /**
+   * Sets timeout for \Symfony\Component\Process\Process.
+   * @param $timeout
+   */
   public function setTimeout($timeout) {
     $this->timeout = $timeout;
   }
 
-  public function setOptions($options) {
+  /**
+   * Sets options for \Symfony\Component\Process\Process.
+   * @param $options
+   */
+  public function setOptions($options)
+  {
     $this->options = $options;
   }
 
+  /**
+   * Executes a command using \Symfony\Component\Process\Process.
+   * @param $command
+   *   The string command.
+   * @return string
+   *   The output from the command.
+   */
   public function execute($command)
   {
     $process = new Process($command, $this->dir, $this->env, $this->input, $this->timeout, $this->options);
@@ -50,7 +78,12 @@ class Shell extends BaseService
     return $process->getOutput();
   }
 
-  public function background($command) {
+  /**
+   * Starts a background process with the provided command.
+   * @param $command
+   */
+  public function background($command)
+  {
     $process = new Process($command, $this->dir, $this->env, $this->input, $this->timeout, $this->options);
     $process->start();
     $process->wait();

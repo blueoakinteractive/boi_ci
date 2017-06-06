@@ -2,16 +2,16 @@
 
 namespace BOI_CI\Service;
 
-use Drupal\Driver\Exception\Exception;
-
-class Rsync extends Shell {
+class Rsync extends Shell
+{
   protected $rsync;
   protected $options;
   protected $flags = '-vr';
   protected $source;
   protected $destination;
 
-  public function __construct() {
+  public function __construct()
+  {
     parent::__construct();
     $this->rsync = trim($this->execute("which rsync"));
 
@@ -26,7 +26,8 @@ class Rsync extends Shell {
    * @return string
    * @throws \Exception
    */
-  public function sync() {
+  public function sync()
+  {
     $options = !empty($this->options) ? implode(" ", $this->options) : "";
 
     if (empty($this->source)) {
@@ -44,7 +45,8 @@ class Rsync extends Shell {
    * The source to copy from.
    * @param $source
    */
-  public function setSource($source) {
+  public function setSource($source)
+  {
     $this->source = $source . '/';
   }
 
@@ -52,7 +54,8 @@ class Rsync extends Shell {
    * The destination to copy to.
    * @param $destination
    */
-  public function setDestination($destination) {
+  public function setDestination($destination)
+  {
     $this->destination = $destination . '/';
   }
 
@@ -60,7 +63,8 @@ class Rsync extends Shell {
    * Paths to be excluded from the rsync command.
    * @param $path
    */
-  public function addExclude($path) {
+  public function addExclude($path)
+  {
     $this->options[] = "--exclude=$path";
   }
 
@@ -68,7 +72,8 @@ class Rsync extends Shell {
    * Set flags on the rsync command.
    * @param $flags
    */
-  public function setFlags($flags) {
+  public function setFlags($flags)
+  {
     $this->flags = '-' . $flags;
   }
 }
