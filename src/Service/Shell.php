@@ -49,4 +49,10 @@ class Shell extends BaseService
 
     return $process->getOutput();
   }
+
+  public function background($command) {
+    $process = new Process($command, $this->dir, $this->env, $this->input, $this->timeout, $this->options);
+    $process->start();
+    $process->wait();
+  }
 }
