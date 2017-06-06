@@ -3,9 +3,9 @@
 namespace BOI_CI\Service;
 
 class Git extends Shell {
-  private $git;
-  private $work_tree;
-  private $git_dir;
+  protected $git;
+  protected $work_tree;
+  protected $git_dir;
 
   public function __construct($repo_dir) {
     parent::__construct();

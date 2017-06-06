@@ -5,11 +5,11 @@ namespace BOI_CI\Service;
 use Drupal\Driver\Exception\Exception;
 
 class Rsync extends Shell {
-  private $rsync;
-  private $options;
-  private $flags = '-vr';
-  private $source;
-  private $destination;
+  protected $rsync;
+  protected $options;
+  protected $flags = '-vr';
+  protected $source;
+  protected $destination;
 
   public function __construct() {
     parent::__construct();
