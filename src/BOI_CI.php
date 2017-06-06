@@ -49,7 +49,10 @@ class BOI_CI {
     return [
       new Command\Build\Symlinks(),
       new Command\Build\Tasks(),
-      new Command\Deploy\Git()
+      new Command\Deploy\Git(),
+      new Command\Drupal\DrushRunServer(),
+      new Command\Drupal\DrushSiteInstall(),
+      new Command\Drupal\DrushSyncDb()
     ];
   }
 }
