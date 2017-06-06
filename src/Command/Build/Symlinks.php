@@ -48,8 +48,18 @@ class Symlinks extends BaseCommand
           continue;
         }
 
+
+        // Determine the actual destination path.
+        if (strpos('~/', $symlink['destination']) === 0 || strpos('/', $symlink['destination']) === 0) {
+          // If the root of the destination references a user or absolute path
+          // don't alter the destination.
+          $destination = $symlink['destination'];
+        } else {
+          // Otherwise, the path is relative to the build root.
+          $destination = $this->config['build']['root'] . '/' . $symlink['destination'];
+        }
+
         // Validate the destination root exits.
-        $destination = $this->config['build']['root'] . '/' . $symlink['destination'];
         $destination_info = pathinfo($destination);
         if (!$fs->exists($destination_info['dirname'])) {
           throw new \Exception('Destination directory must already exist for "' . $key . '" symlink') ;
