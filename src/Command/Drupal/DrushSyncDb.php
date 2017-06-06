@@ -32,10 +32,10 @@ class DrushSyncDb extends BaseCommand
     $drush->setAlias($alias);
 
     // Make sure we can locate the drupal version.
-//    $status = json_decode($drush->drush('status --format=json'));
-//    if (empty($status->{'drupal-version'})) {
-//      throw new \Exception('Unable to locate drupal root of the remote site. Please check your alias.');
-//    }
+    $status = json_decode($drush->drush('status --format=json'));
+    if (!is_array($status)) {
+      throw new \Exception('Unable to locate drupal root of the remote site. Please check your alias.');
+    }
 
     // Execute the method to synchronize from the remote
     // database to the local one.
