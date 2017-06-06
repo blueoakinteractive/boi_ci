@@ -48,4 +48,8 @@ class Git extends Shell {
   public function gitClone($repo, $branch, $dir) {
     return $this->execute("$this->git clone $repo --branch=$branch $this->work_tree");
   }
+
+  public function gitConfig($option, $value) {
+    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir $option=$value");
+  }
 }

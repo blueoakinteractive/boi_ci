@@ -55,6 +55,12 @@ class Git extends BaseCommand
     $git_remote = new GitCommand($path);
     $git_remote->gitClone($uri, $branch, $path);
 
+    // Set require configuration options to push commits.
+    $git_email = !empty($this->config['environments'][$environment]['git']['user']['email']) ? $this->config['environments'][$environment]['git']['user']['email'] : 'boici@example.com';
+    $git_name = !empty($this->config['environments'][$environment]['git']['user']['email']) ? $this->config['environments'][$environment]['git']['user']['email'] : 'boici@example.com';
+    $git_remote->gitConfig('user.email', $git_email);
+    $git_remote->gitConfig('user.name', $git_name);
+
     $output->writeln('Syncing changes to artifact repo');
     $rsync = new RsyncCommand();
 
