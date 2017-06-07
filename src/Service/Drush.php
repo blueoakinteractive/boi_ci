@@ -70,7 +70,7 @@ class Drush extends Shell
   public function siteInstall($db_url, $profile = "standard", $site_name="boi_ci", $account_mail = "boi_ci@example.com", $account_name = "boi_ci", $account_pass = "boi_ci", $options = null)
   {
     $scope = $this->getScope();
-    $this->execute("$this->drush $scope site-install install_configure_form.update_status_module='array(FALSE,FALSE)' -y $profile $options --db-url=\"$db_url\" --site-name=\"$site_name\"  --account-mail=\"$account_mail\" --account-name=\"$account_name\" --account-pass=\"$account_pass\"");
+    $this->execute("$this->drush $scope site-install $profile install_configure_form.update_status_module='array(FALSE,FALSE)' -y $options --db-url=\"$db_url\" --site-name=\"$site_name\"  --account-mail=\"$account_mail\" --account-name=\"$account_name\" --account-pass=\"$account_pass\"");
   }
 
   /**
