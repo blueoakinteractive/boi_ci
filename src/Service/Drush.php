@@ -95,6 +95,8 @@ class Drush extends Shell
     }
 
     $this->setTimeout(null);
-    $this->execute("$this->drush $this->alias sql-dump | $this->drush -r $this->drush_dir sqlc");
+    $this->setDir(getenv("HOME"));
+    $this->execute("$this->drush $this->alias status");
+    $this->execute("$this->drush $this->alias sql-dump --gzip | gzip -cd | $this->drush -r $this->drush_dir sql-cli");
   }
 }
