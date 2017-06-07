@@ -69,6 +69,14 @@ class Rsync extends Shell
   }
 
   /**
+   * Add option to the rsync command.
+   * @param $option
+   */
+  public function addOption($option){
+    $this->options[] = $option;
+  }
+
+  /**
    * Set flags on the rsync command.
    * @param $flags
    */

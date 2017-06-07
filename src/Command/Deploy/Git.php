@@ -74,6 +74,7 @@ class Git extends BaseCommand
     }
 
     $rsync->setFlags('vrL');
+    $rsync->addOption('--delete');
     $rsync->setSource($this->build_root);
     $rsync->setDestination($path);
     $rsync->sync();
