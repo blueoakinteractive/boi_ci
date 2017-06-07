@@ -84,6 +84,7 @@ class Shell extends BaseService
    */
   public function background($command)
   {
+    $this->setTimeout(null);
     $process = new Process($command, $this->dir, $this->env, $this->input, $this->timeout, $this->options);
     $process->start();
     $process->wait();
