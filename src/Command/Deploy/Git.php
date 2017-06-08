@@ -76,7 +76,14 @@ class Git extends BaseCommand
     $rsync->setFlags('vrL');
     $rsync->addOption('--delete');
     $rsync->setSource($this->build_root);
-    $rsync->setDestination($path);
+
+    // Determine the path to sync the build into for deployment.
+    $destination = $path;
+    if (!empty($this->config['environments'][$environment]['git']['sub_dir'])) {
+      $destination .= '/' . $this->config['environments'][$environment]['git']['sub_dir'];
+    }
+
+    $rsync->setDestination($destination);
     $rsync->sync();
 
     // Make sure code changes have occurred before attempting
