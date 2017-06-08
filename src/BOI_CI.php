@@ -47,6 +47,7 @@ class BOI_CI {
   private function getCommands()
   {
     return [
+      new Command\Build\DrushMake(),
       new Command\Build\Symlinks(),
       new Command\Build\Tasks(),
       new Command\Deploy\Git(),

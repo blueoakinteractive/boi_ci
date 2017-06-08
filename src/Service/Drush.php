@@ -58,6 +58,17 @@ class Drush extends Shell
   }
 
   /**
+   * Executes drush make.
+   * @param $file
+   * @param $location
+   * @return string
+   */
+  public function drushMake($file, $location) {
+    $this->setTimeout(null);
+    return $this->execute("$this->drush make $file $location");
+  }
+
+  /**
    * Executes drush site-install with options.
    * @param $db_url
    * @param string $profile
