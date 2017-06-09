@@ -54,8 +54,10 @@ class InitCi extends BaseCommand
 
         // Disable strict host key checking for deployments.
         $fs = new Filesystem();
-        $fs->mkdir("~/.ssh/config");
-        $fs->appendToFile("~/.ssh/config","\"Host *\n\tStrictHostKeyChecking no\n\n\"");
+        $home = getenv("HOME");
+        $fs->mkdir("$home/.ssh");
+        $fs->touch("$home/.ssh/config");
+        $fs->appendToFile("$home/.ssh/config","\"Host *\n\tStrictHostKeyChecking no\n\n\"");
       }
     }
     else {
