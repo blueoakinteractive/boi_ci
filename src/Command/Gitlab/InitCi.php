@@ -43,7 +43,16 @@ class InitCi extends BaseCommand
         // Add the deploy key to ssh-agent.
         $shell->execute("$ssh_agent -s");
         $ssh_add = trim($shell->execute("which ssh-add"));
-        $shell->execute($ssh_add. ' < echo "$DEPLOY_KEY"');
+        $key_file = $this->config['temp'] .'/'.  uniqid() . '.pem';
+
+        // Copy the DEPLOY_KEY to a file and execute ssh-add.
+        $fs = new Filesystem();
+        $fs->remove($key_file);
+        $fs->touch($key_file);
+        $fs->appendToFile($key_file, $deploy_key);
+        $fs->chmod($key_file, 0400);
+        $shell->execute("$ssh_add $key_file");
+        $fs->remove($key_file);
 
         // Disable strict host key checking for deployments.
         $fs = new Filesystem();
@@ -77,7 +86,7 @@ class InitCi extends BaseCommand
   protected function setTimeZone() {
     $ini_path = php_ini_loaded_file();
     if (!empty($this->config['ci']['timezone'])) {
-     $timezone = $this->config['ci']['timezone'];
+      $timezone = $this->config['ci']['timezone'];
     }
     else {
       $timezone = "America/New_York";
