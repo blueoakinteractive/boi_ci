@@ -40,10 +40,6 @@ class InitCi extends BaseCommand
         $output->writeln("<fg=magenta>Unable to locate ssh-agent command. Commands that require ssh authentication will not pass.</>");
       }
       else {
-        // Add the deploy key to ssh-agent.
-        $agent = new Shell();
-        $agent->background("eval $($ssh_agent -s)");
-
         $ssh_add = trim($shell->execute("which ssh-add"));
         $key_file = $this->config['temp'] .'/'.  uniqid() . '.pem';
 
