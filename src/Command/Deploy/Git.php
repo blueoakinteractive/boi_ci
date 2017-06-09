@@ -43,7 +43,7 @@ class Git extends BaseCommand
 
     // Make sure all changes to the local repo have been committed.
     if (!strstr($git_local->gitStatus(), 'working tree clean')) {
-      throw new \Exception('Unable to deploy on an unclean project. Make sure all local changes have been committed.');
+      throw new \Exception('Unable to deploy on an unclean project. Make sure all local changes have been committed' . PHP_EOL . $git_local->gitStatus());
     }
 
     // Determine the last commit message to use as the deployment
