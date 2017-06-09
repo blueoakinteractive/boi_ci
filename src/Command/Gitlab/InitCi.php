@@ -33,7 +33,7 @@ class InitCi extends BaseCommand
     $deploy_key = getenv("DEPLOY_KEY");
     if (!empty($deploy_key)) {
       $shell = new Shell();
-      $ssh_agent = $shell->execute("which ssh-agent");
+      $ssh_agent = trim($shell->execute("which ssh-agent"));
 
       // Warn that ssh agent is not available.
       if (empty($ssh_agent)) {
@@ -42,7 +42,7 @@ class InitCi extends BaseCommand
       else {
         // Add the deploy key to ssh-agent.
         $shell->execute("$ssh_agent -s");
-        $ssh_add = $shell->execute("which ssh_add");
+        $ssh_add = trim($shell->execute("which ssh_add"));
         $shell->execute("$ssh_add < echo $deploy_key");
 
         // Disable strict host key checking for deployments.
