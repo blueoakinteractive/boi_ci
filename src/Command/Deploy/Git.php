@@ -8,6 +8,7 @@ use BOI_CI\Service\Rsync as RsyncCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 class Git extends BaseCommand
 {
@@ -103,8 +104,8 @@ class Git extends BaseCommand
     $output->writeln('Pushing changes to artifact repo');
     $git_remote->gitPush("origin", $branch);
 
-    // Delete the temporary path.
-    rmdir($path);
+    // Clean up the temporary directory.
+    (new Filesystem)->remove($path);
     $output->writeln('Deploy complete');
   }
 }
