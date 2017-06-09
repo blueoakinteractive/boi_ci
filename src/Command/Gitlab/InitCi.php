@@ -41,7 +41,9 @@ class InitCi extends BaseCommand
       }
       else {
         // Add the deploy key to ssh-agent.
-        $shell->background("$ssh_agent -s");
+        $agent = new Shell();
+        $agent->background("$ssh_agent -s");
+
         $ssh_add = trim($shell->execute("which ssh-add"));
         $key_file = $this->config['temp'] .'/'.  uniqid() . '.pem';
 
