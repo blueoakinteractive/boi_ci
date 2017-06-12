@@ -27,9 +27,9 @@ environments:
     git:
       uri: git@gitlab.com:[namespace]/[project].git
       branch: master
-    # Paths to be excluded from builds during deployments.
-    exclude:
-      - sites/default
+      # Optional sub-directory to use in the artifact repo for builds.
+      # The default is to build into the root of the project.
+      sub_dir: docroot
     # Tasks to be executed when running "boici build:tasks production"
     tasks:
       npm:
