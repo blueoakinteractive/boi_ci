@@ -27,9 +27,19 @@ environments:
     git:
       uri: git@gitlab.com:[namespace]/[project].git
       branch: master
-      # Optional sub-directory to use in the artifact repo for builds.
-      # The default is to build into the root of the project.
+      # Optional sub-directory of the artifact repo to use.
+      # The default is to build into the root of the git repo.
       sub_dir: docroot
+    # Optionally specify which local root to use for the artifact repo.
+    # - build_root (default) : Use the build root as the artifact root (ie: just built files).
+    # - source_root : Use the source root as the artifact root (ie: all files including this one).
+    root: source_root
+    # Optional files to ignore when creating the artifact repo. Especially
+    # useful when using the source_root above. For example, the local .gitignore
+    # should probably be excluded from your artifact repo. See rsync --exclude
+    # for formatting options.
+    exclude:
+      - /.gitignore
     # Tasks to be executed when running "boici build:tasks production"
     tasks:
       npm:
