@@ -76,7 +76,26 @@ class Git extends BaseCommand
 
     $rsync->setFlags('vrL');
     $rsync->addOption('--delete');
-    $rsync->setSource($this->build_root);
+
+    // Set the default source to be the build root.
+    $source = $this->build_root;
+
+    // Allow configuration to override the artifact root to use by
+    // setting build_root or source_root.
+    if (!empty($this->config['environments'][$environment]['root'])) {
+      switch ($this->config['environments'][$environment]['root']) {
+        case 'build_root':
+          $source = $this->build_root;
+          break;
+        case 'source_root':
+          $source = $this->config['root'];
+          break;
+        default:
+          throw new \Exception('The git root must either be "source" or "build" in your config.');
+      }
+    }
+
+    $rsync->setSource($source);
 
     // Determine the path to sync the build into for deployment.
     $destination = $path;
