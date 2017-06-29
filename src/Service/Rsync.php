@@ -5,8 +5,8 @@ namespace BOI_CI\Service;
 class Rsync extends Shell
 {
   protected $rsync;
-  protected $options;
-  protected $flags = '-vr';
+  protected $rsync_options;
+  protected $rsync_flags = '-vr';
   protected $source;
   protected $destination;
 
@@ -28,7 +28,7 @@ class Rsync extends Shell
    */
   public function sync()
   {
-    $options = !empty($this->options) ? implode(" ", $this->options) : "";
+    $rsync_options = !empty($this->rsync_options) ? implode(" ", $this->rsync_options) : "";
 
     if (empty($this->source)) {
       throw new \Exception('No source specified for rsync');
@@ -38,7 +38,7 @@ class Rsync extends Shell
       throw new \Exception('No destination specified for rsync');
     }
 
-    return $this->execute("$this->rsync $this->flags $this->source $this->destination $options");
+    return $this->execute("$this->rsync $this->rsync_flags $this->source $this->destination $rsync_options");
   }
 
   /**
@@ -73,15 +73,15 @@ class Rsync extends Shell
    * @param $option
    */
   public function addOption($option){
-    $this->options[] = $option;
+    $this->rsync_options[] = $option;
   }
 
   /**
-   * Set flags on the rsync command.
-   * @param $flags
+   * Set rsync_flags on the rsync command.
+   * @param $rsync_flags
    */
-  public function setFlags($flags)
+  public function setFlags($rsync_flags)
   {
-    $this->flags = '-' . $flags;
+    $this->rsync_flags = '-' . $rsync_flags;
   }
 }
