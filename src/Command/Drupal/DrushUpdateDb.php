@@ -15,12 +15,17 @@ class DrushUpdateDb extends BaseCommand
     $this
       ->setName('drush:updatedb')
       ->setDescription('Runs drush updatedb on a particular environment via alias')
-      ->addArgument('alias', InputArgument::REQUIRED, 'The remote drush alias');
+      ->addArgument('environment', InputArgument::REQUIRED, 'The environment to run updatedb on.');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
   {
-    $alias = $input->getArgument('alias');
+    $environment = $input->getArgument('environment');
+    if (empty($this->config['environments'][$environment]['drush']['alias'])) {
+      throw new \Exception('The specified environment of $environment does not have a drush alias property in your config.');
+    }
+
+    $alias = $this->config['environments'][$environment]['drush']['alias'];
     if (strpos($alias, '@') !== 0) {
       $alias = '@' . $alias;
     }
