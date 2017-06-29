@@ -57,7 +57,7 @@ class InitCi extends BaseCommand
         $home = getenv("HOME");
         $fs->mkdir("$home/.ssh");
         $fs->touch("$home/.ssh/config");
-        $fs->dumpFile("$home/.ssh/config","\"Host *\n\tStrictHostKeyChecking no\n\n\"");
+        $fs->dumpFile("$home/.ssh/config","\"Host *\n\tStrictHostKeyChecking no\n\n\"", 0600);
       }
     }
     else {
