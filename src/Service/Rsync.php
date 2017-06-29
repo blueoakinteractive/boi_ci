@@ -65,7 +65,7 @@ class Rsync extends Shell
    */
   public function addExclude($path)
   {
-    $this->options[] = "--exclude=$path";
+    $this->rsync_options[] = "--exclude=$path";
   }
 
   /**
