@@ -47,7 +47,7 @@ class InitCi extends BaseCommand
         $fs = new Filesystem();
         $fs->remove($key_file);
         $fs->touch($key_file);
-        $fs->appendToFile($key_file, $deploy_key);
+        $fs->dumpFile($key_file, $deploy_key);
         $fs->chmod($key_file, 0400);
         $shell->execute("$ssh_add $key_file");
         $fs->remove($key_file);
@@ -57,7 +57,7 @@ class InitCi extends BaseCommand
         $home = getenv("HOME");
         $fs->mkdir("$home/.ssh");
         $fs->touch("$home/.ssh/config");
-        $fs->appendToFile("$home/.ssh/config","\"Host *\n\tStrictHostKeyChecking no\n\n\"");
+        $fs->dumpFile("$home/.ssh/config","\"Host *\n\tStrictHostKeyChecking no\n\n\"");
       }
     }
     else {
