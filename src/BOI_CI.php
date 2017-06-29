@@ -55,6 +55,7 @@ class BOI_CI {
       new Command\Drupal\DrushRunServer(),
       new Command\Drupal\DrushSiteInstall(),
       new Command\Drupal\DrushSyncDb(),
+      new Command\Drupal\DrushUpdateDb(),
       new Command\Gitlab\InitCi()
     ];
   }
