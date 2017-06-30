@@ -16,6 +16,31 @@ class Shell extends BaseService
   public function __construct()
   {
     parent::__construct();
+    $this->initEnv();
+  }
+
+  /**
+   * Set the environment variables to use for all commands.
+   */
+  private function initEnv() {
+    // Fetch the environment variables from $_ENV if they
+    // exist. If not, use $_SERVER.
+    $env = !empty($_ENV) ? (array) $_ENV : (array) $_SERVER;
+
+    // Append ~/.composer/vendor/bin to the PATH for
+    // global composer binaries.
+    $env['PATH'] .= ':' . getenv('HOME') . '/.composer/vendor/bin';
+
+    // If the site is running on GitLab CI, append possible
+    // local vendor binaries.
+    $gitlab_dir = getenv('CI_PROJECT_DIR');
+    if (!empty($gitlab_dir)) {
+      $env['PATH'] .= ':' . $gitlab_dir . '/vendor/bin';
+      $env['PATH'] .= ':' . $gitlab_dir . '/bin';
+    }
+
+    // Update the environment variables for this class.
+    $this->setEnv($env);
   }
 
   /**
