@@ -27,7 +27,7 @@ class Tasks extends BaseCommand
     // exist for that environment otherwise fail.
     if (isset($environment)) {
       if (empty($this->config['environments'][$environment]['tasks']) || !is_array($this->config['environments'][$environment]['tasks'])) {
-        $output->writeln("<fg=magenta>Please define the tasks for your '$environment' environment in your config file.</>");
+        $output->writeln("<fg=magenta>Skipping tasks for '$environment' because there are none defined in your config file.</>");
         return;
       }
 
