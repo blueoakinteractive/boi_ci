@@ -13,13 +13,6 @@ class GitTest extends TestCase
   /**
    * Setup process for tests.
    */
-  public function setUp() {
-    parent::setUp();
-    $repo = GIT_TEST_TEMP_DIR_BASE . '/' . uniqid();
-    $git = new Git($repo);
-    $git->gitConfig('user.email', 'boi_ci_test@internal.blueoi.com');
-    $git->gitConfig('user.name', 'BOI CI Test Bot');
-  }
 
   /**
    * Test git clone method.
@@ -61,6 +54,11 @@ class GitTest extends TestCase
   public function testGitCommit($repo)
   {
     $git = new Git($repo);
+
+    // Set config required for committing.
+    $git->gitConfig('user.email', 'boi_ci_test@internal.blueoi.com');
+    $git->gitConfig('user.name', 'BOI CI Test Bot');
+
     $commit_message = 'Testing commit of ' . $repo;
     $git->gitCommit($commit_message);
     $status = $git->gitStatus();
