@@ -6,7 +6,7 @@ use phpDocumentor\Reflection\File;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-define('RSYNC_TEST_TEMP_DIR_BASE', '/tmp/boi-ci-test');
+define('RSYNC_TEST_TEMP_DIR_BASE', '/tmp/boi-ci-service-rsync-test');
 
 class RsyncTest extends TestCase
 {
