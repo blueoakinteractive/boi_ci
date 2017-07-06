@@ -3,6 +3,7 @@ image: blueoakinteractive/php-fpm:7.0.11-ci
 before_script:
   # Build the site using composer.
   - composer install --prefer-dist --no-interaction --no-progress
+  - cp $CI_PROJECT_DIR/.boi_ci.example.yml $CI_PROJECT_DIR/.boi_ci.yml
   - bin/boi_ci gitlab:init-ci
 
 stages:
