@@ -1,0 +1,17 @@
+image: blueoakinteractive/php-fpm:7.0.11-ci
+
+before_script:
+  # Build the site using composer.
+  - composer install --prefer-dist --no-interaction --no-progress
+  - bin/boi_ci gitlab:init-ci
+
+stages:
+  - test
+
+# Deploy the site to 'master' on pantheon.
+job_test_master:
+  only:
+    - tests
+  stage: test
+  script:
+    - bin/phpunit tests
