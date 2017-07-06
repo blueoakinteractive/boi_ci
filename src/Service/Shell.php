@@ -60,6 +60,14 @@ class Shell extends BaseService
   }
 
   /**
+   * Environment variables getter.
+   * @return null|array
+   */
+  public function getEnv() {
+    return $this->env;
+  }
+
+  /**
    * Sets input for \Symfony\Component\Process\Process.
    * @param $input
    */
