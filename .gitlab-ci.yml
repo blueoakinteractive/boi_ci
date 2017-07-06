@@ -15,4 +15,4 @@ job_test_master:
     - tests
   stage: test
   script:
-    - bin/phpunit tests
+    - vendor/bin/phpunit tests
