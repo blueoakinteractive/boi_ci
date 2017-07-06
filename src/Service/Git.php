@@ -94,6 +94,17 @@ class Git extends Shell
   }
 
   /**
+   * Fetches from a git repository.
+   * @param $remote
+   * @param $branch
+   * @return string
+   */
+  public function gitFetch($remote, $branch)
+  {
+    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir fetch $remote $branch");
+  }
+
+  /**
    * Sets a config parameter.
    * @param $option
    * @param $value
