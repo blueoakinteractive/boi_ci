@@ -13,24 +13,29 @@ class ShellTest extends TestCase
   {
     $shell = new Shell();
     $this->assertNotEmpty($shell->getEnv());
+    return $shell;
   }
 
   /**
    * Tests that the global composer vendor bin is added to PATH.
+   *
+   * @param $shell Shell
+   * @depends testEnvPathSet
    */
-  public function testEnvPathGlobalComposerBin()
+  public function testEnvPathGlobalComposerBin(Shell $shell)
   {
-    $shell = new Shell();
     $env = $shell->getEnv();
     $this->assertContains(getenv('HOME') . '/.composer/vendor/bin', $env['PATH']);
   }
 
   /**
    * Tests that output of execute() returns composer.json string.
+   *
+   * @param $shell Shell
+   * @depends testEnvPathSet
    */
-  public function testExecute()
+  public function testExecute(Shell $shell)
   {
-    $shell = new Shell();
     $output = $shell->execute('ls');
     $this->assertContains('composer.json', $output);
   }
