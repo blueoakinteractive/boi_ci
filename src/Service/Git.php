@@ -94,11 +94,22 @@ class Git extends Shell
   }
 
   /**
-   * Fetches from a git repository.
+   * Merges from a remote branch.
    * @param $remote
    * @param $branch
    * @return string
    */
+  public function gitMerge($remote, $branch)
+  {
+    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir merge $remote/$branch");
+  }
+
+  /**
+ * Fetches from a git repository.
+ * @param $remote
+ * @param $branch
+ * @return string
+ */
   public function gitFetch($remote, $branch)
   {
     return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir fetch $remote $branch");
