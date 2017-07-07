@@ -89,6 +89,12 @@ class Symlinks extends BaseCommand
           $source = str_repeat('../', count($destination_parts) - 1) . $symlink['source'];
         }
 
+        // If the force flag is set, delete any existing files before
+        // attempting to create a new symlink.
+        if (!empty($symlink['force']) && $symlink['force'] == true) {
+            $fs->remove($destination);
+        }
+
         // Create the symlink.
         $fs->symlink($source, $destination);
         $output->writeln('Symlink created for ' . $key);
