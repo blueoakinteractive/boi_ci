@@ -15,9 +15,7 @@ stages:
   - test
 
 # Deploy the site to 'master' on pantheon.
-job_test_master:
-  only:
-    - master
+job_test_all:
   stage: test
   script:
     - vendor/bin/phpunit tests
