@@ -20,6 +20,10 @@ symlinks:
   files:
     source: local/files
     destination: sites/default/files
+  htaccess:
+    source: .htaccess
+    destination: .htaccess
+    force: true
 
 # Environments for deployments.
 environments:
