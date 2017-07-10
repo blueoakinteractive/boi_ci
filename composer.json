@@ -2,10 +2,10 @@
   "name": "blueoakinteractive/boi_ci",
   "description": "Continuous integration scripts for Blue Oak Interactive",
   "require": {
-    "symfony/console": "^3.2",
-    "symfony/process": "^3.2",
-    "symfony/filesystem": "^3.2",
-    "symfony/yaml": "^3.2"
+    "symfony/console": "~2.8",
+    "symfony/process": "~2.8",
+    "symfony/filesystem": "~2.8",
+    "symfony/yaml": "~2.8"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.2"
