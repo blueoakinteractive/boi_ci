@@ -27,14 +27,14 @@ To simplify the configuration process we have created example projects that you 
 
 
 ## Files and Folders
-###Required files
+### Required files
 The following files are required for all projects running boi_ci.
 ```bash
 ├── .boi_ci.yml
 └── composer.json
 ```
 
-###Sample folder structure
+### Sample folder structure
 Below is a typical folder structure for building a project using the boi_ci.  This includes all of the necessary components to build a project using drush make including patches, custom modules/themes/libraries, as well as deployment using Gitlab CI.
 
 ```bash
@@ -126,7 +126,7 @@ exclude:
   - /project.make
 ```
 
-##Sample .boi_ci.yml file
+## Sample .boi_ci.yml file
 ```yaml
 # Required build root directory. This should match
 # the folder that composer.json is using in installer
@@ -206,7 +206,7 @@ environments:
 
 ```
 
-##Sample .gitlab-ci.yml file
+## Sample .gitlab-ci.yml file
 
 See [Gitlab Documentation](https://docs.gitlab.com/ee/ci/yaml/) for more information.
 
@@ -242,7 +242,7 @@ job_deploy_master:
 
 ```
 
-##Sample composer.json
+## Sample composer.json
 Below is a sample composer.json file that can be modified to suit the needs of your project.  The key components that should be noted are the packages defined in the "require" statement as well as the configured post install/update "scripts".
 ```json
 {
@@ -273,7 +273,7 @@ Below is a sample composer.json file that can be modified to suit the needs of y
 }
 ```
 
-##Run your local build
+## Run your local build
 
 ```bash
 composer install --prefer-dist --no-interaction --no-progress
