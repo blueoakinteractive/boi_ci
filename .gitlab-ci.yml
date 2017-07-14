@@ -24,4 +24,4 @@ job_test_all:
 job_deploy_packagist:
   stage: deploy
   script:
-    - curl -XPOST -H'content-type:application/json' 'https://packagist.org/api/update-package?username=andyg5000&apiToken=$PACKAGIST_KEY' -d'{"repository":{"url":"https://packagist.org/packages/blueoakinteractive/boi_ci"}}'
+    - curl -XPOST -H 'content-type:application/json' "https://packagist.org/api/update-package?username=andyg5000&apiToken=$PACKAGIST_KEY" -d'{"repository":{"url":"https://gitlab.com/blueoakinteractive/boi_ci"}}'
