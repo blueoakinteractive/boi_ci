@@ -10,7 +10,7 @@ The BOI CI was developed by [Blue Oak Interactive](https://www.blueoakinteractiv
 ## Installation Requirements
 - [Composer](https://getcomposer.org/) - PHP Dependency management 
 - [Symfony ~2.8](https://symfony.com/) - Symfony 2 is required  as the Drupal Console for Drupal 8 currently runs on Symfony
- - [Drush ~8](http://www.drush.org/en/master/) - Drupal Shell
+- [Drush ~8](http://www.drush.org/en/master/) - Drupal Shell
 - [Git ~2](https://git-scm.com/) - For version control
 - [GitLab](https://about.gitlab.com/) - Git repository hosting and CI
 
@@ -24,7 +24,6 @@ To simplify the configuration process we have created example projects that you 
 - As well as other non-Drupal specific providers 
 
 **See:** [blueoakinterative/boi_ci_examples](https://gitlab.com/blueoakinteractive/boi_ci_examples)
-
 
 ## Files and Folders
 ### Required files
@@ -62,22 +61,17 @@ Below is a typical folder structure for building a project using the boi_ci.  Th
 ```
 
 ## BOI CI Specific Configuration
-
 ### Build
-
 In the `.boi_ci.yml` file, there is a section called "build".
 
 #### Build Root
-
 `build.root` allows you to define where your project will be built into, both for local development and when pushing to external environments. In this example, the build root is "www". When running `composer install` all of the build assets will be placed into the www sub-directory. The build root should be excluded in your .gitignore file.
 
 ### Temporary Directory
-
 A writable temp directory is required to have in your .boi-ci.yml file.
 Usually `/tmp` will suffice.
 
 ### Symlinks
-
 In the `.boi_ci.yml` file, there is a section called "symlinks". This section allows you to define files or folders outside of your build root that should be included in your build.
 
 In this example, we're sym-linking or custom modules, themes, and libraries folders from the root of the project into www/sites/default/______ (note the "www" is inferred from your build root). This is also the location they will be when pushing the code to your external environments.
@@ -89,21 +83,17 @@ The required values for a symlink are are "source" and "destination". Source is 
 We typically use a `./local` directory during local development that contains settings.php and files (sites/default/files). To follow this method, create `./local/settings.local.php` (file) and `./local/files` (directory). Then either re-run `composer install` or run `bin/boi_ci build:symlinks`
 
 ### Environments
-
 The environments section allows you to define external environments that will be used to push git artifacts to. An artifact is another git repo that contains all of your build files. We use artifacts for several reasons, but the main reason is that most hosting providers provide their own git repo for pushing to their environment. BOI CI allows you to build your project into their repos and provides the ability to have a common workflow, regardless of the hosting provider. You can even push your artifacts to multiple hosting providers from the same project, as seen in the example.
 
-#### Environment Specific Git Artifact Repo Configuration
-
+#### Environment Git Artifact Repo Configuration
 Each environment should have a git artifact repo defined. This represents the git remote and branch that will be pushed to whenever a build it being deployed.
 
-#### Environment Artifiact Repo Root
- 
+#### Environment Repo Root
 When configuring your environment you can specify the `root` variable that defines the artifact repo's desired git root. 
 
 The default root value is `build_root` which essentially means that the build directory will be committed and pushed to your artifact repo.  Alternatively you can set the value to `source_root` which will commit the entire project directory to your artifact repo.
 
 #### Environment Drush Alias Definition
-
 In order to call drush commands on remote environments you will need to define a drush alias per environment.  These aliases are defined in your project drush alias file as seen in the sample `.boi_ci.yml` file below. 
 
 *ie: `example.aliases.drushrc.php`*
@@ -113,8 +103,7 @@ drush:
   alias: example.development
 ``` 
 
-#### Environment Artifiact Repo Exclusions
-
+#### Environment Repo Exclusions
 When building to an artifact repo there may be instances where you do not need all of the files stored in the `source_root`.  This is where exlusions come in handy.  
 
 ```
@@ -206,8 +195,222 @@ environments:
 
 ```
 
-## Sample .gitlab-ci.yml file
+## BOI CI Commands
+A list of boi_ci commands and how to use them. To use a command change into your project root and preface it with  the application path `bin/boi_ci`. 
 
+*Example: `bin/boi_ci build:symlinks`*
+
+---
+
+### Command List
+
+**build:**
+
+* [`build:drush-make`](#builddrush-make)
+* [`build:symlinks`](#buildsymlinks)
+* [`build:tasks`](#buildtasks)
+
+**deploy:**
+
+* [`deploy:git`](#deploygit)
+
+**drush:**
+
+* [`drush:command`](#drushcommand)
+* [`drush:run-server`](#drushrun-server)
+* [`drush:site-install`](#drushsite-install)
+* [`drush:sync-db`](#drushsync-db)
+* [`drush:updatedb`](#drushupdatedb)
+
+**gitlab:**
+
+* [`gitlab:init-ci`](#gitlabinit-ci)
+
+
+`build:drush-make`
+------------------
+
+Builds a site from a drush make file.  Default make file names include project.make, project.make.yml, drush.make, and drush.make.yml.
+
+*Note: Use one of our default make file names and you can exclude the makefile argument.*
+
+### Usage
+
+* `build:drush-make [<makefile>]`
+
+### Arguments
+
+#### `makefile`
+
+The location of the makefile.
+
+* Is required: no
+* Is array: no
+* Default: `NULL`
+
+
+`build:symlinks`
+----------------
+
+Sets up project symlinks as defined in `.boi_ci.yml`.
+
+### Usage
+
+* `build:symlinks`
+
+
+`build:tasks`
+-------------
+
+Runs per-environment tasks defined in `.boi_ci.yml`.
+
+### Usage
+
+* `build:tasks [<environment>]`
+
+### Arguments
+
+#### `environment`
+
+Run tasks for a specific environment. If not provided the tasks defined in build are ran.
+
+* Is required: no
+* Is array: no
+* Default: `NULL`
+
+
+`deploy:git`
+------------
+
+Deploy the project to a git artifact repo.
+
+### Usage
+
+* `deploy:git <environment>`
+
+### Arguments
+
+#### `environment`
+
+The environment to deploy to where environment is the defined in `.boi_ci.yml`.
+
+* Is required: yes
+* Is array: no
+* Default: `NULL`
+
+
+`drush:command`
+---------------
+
+Executes an arbitrary drush command.
+
+### Usage
+
+* `drush:command <drush_command>`
+
+### Arguments
+
+#### `drush_command`
+
+A valid drush command.
+
+* Is required: yes
+* Is array: no
+* Default: `NULL`
+
+
+`drush:run-server`
+------------------
+
+Use drush to run PHP server for CI.
+
+### Usage
+
+* `drush:run-server <url>`
+
+### Arguments
+
+#### `url`
+
+The full url and port of the server (http://localhost:8080)
+
+* Is required: yes
+* Is array: no
+* Default: `NULL`
+
+
+`drush:site-install`
+--------------------
+
+Executes drush site-install for CI.
+
+### Usage
+
+* `drush:site-install <db_url>`
+
+### Arguments
+
+#### `db_url`
+
+A mysql database uri (mysqli://user:password@host:port/database).
+
+* Is required: yes
+* Is array: no
+* Default: `NULL`
+
+
+`drush:sync-db`
+---------------
+
+Synchronizes a db from remote to local by remote alias.
+
+### Usage
+
+* `drush:sync-db <alias>`
+
+### Arguments
+
+#### `alias`
+
+The remote drush alias.
+
+* Is required: yes
+* Is array: no
+* Default: `NULL`
+
+
+`drush:updatedb`
+----------------
+
+Runs drush updatedb on a particular environment via alias.
+
+### Usage
+
+* `drush:updatedb <environment>`
+
+### Arguments
+
+#### `environment`
+
+The environment to run updatedb on.
+
+* Is required: yes
+* Is array: no
+* Default: `NULL`
+
+
+
+`gitlab:init-ci`
+----------------
+
+Initializes dependencies for CI.
+
+### Usage
+
+* `gitlab:init-ci`
+
+
+## Sample .gitlab-ci.yml file
 See [Gitlab Documentation](https://docs.gitlab.com/ee/ci/yaml/) for more information.
 
 ```yaml
@@ -239,7 +442,6 @@ job_deploy_master:
     - bin/boi_ci build:tasks master
     - bin/boi_ci deploy:git master
     - bin/boi_ci drush:updatedb master
-
 ```
 
 ## Sample composer.json
@@ -274,7 +476,6 @@ Below is a sample composer.json file that can be modified to suit the needs of y
 ```
 
 ## Run your local build
-
 ```bash
 composer install --prefer-dist --no-interaction --no-progress
 ```
