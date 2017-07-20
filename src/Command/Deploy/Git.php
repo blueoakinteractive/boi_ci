@@ -76,6 +76,7 @@ class Git extends BaseCommand
 
     $rsync->setFlags('vrL');
     $rsync->addOption('--delete');
+    $rsync->addOption('--delete-excluded');
 
     // Set the default source to be the build root.
     $source = $this->build_root;
