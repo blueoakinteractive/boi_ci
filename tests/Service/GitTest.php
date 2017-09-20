@@ -62,7 +62,7 @@ class GitTest extends TestCase
     $commit_message = 'Testing commit of ' . $repo;
     $git->gitCommit($commit_message);
     $status = $git->gitStatus();
-    $this->assertContains('nothing to commit, working directory clean', $status);
+    $this->assertContains('nothing to commit', $status);
     $last_commit = $git->lastCommitMessage();
     $this->assertContains($commit_message, $last_commit);
     return $repo;

@@ -43,7 +43,7 @@ class Git extends BaseCommand
     $git_local = new GitCommand($this->dir);
 
     // Make sure all changes to the local repo have been committed.
-    if (!strstr($git_local->gitStatus(), 'working tree clean')) {
+    if (!strstr($git_local->gitStatus(), 'nothing to commit')) {
       throw new \Exception('Unable to deploy on an unclean project. Make sure all local changes have been committed' . PHP_EOL . $git_local->gitStatus());
     }
 
@@ -108,7 +108,7 @@ class Git extends BaseCommand
 
     // Make sure code changes have occurred before attempting
     // to push CI commits to remote repository.
-    if (strstr($git_remote->gitStatus(), 'working tree clean')) {
+    if (strstr($git_remote->gitStatus(), 'nothing to commit')) {
       throw new \Exception('Deploy canceled, no changes to deploy.');
     }
 
