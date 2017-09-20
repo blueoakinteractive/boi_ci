@@ -49,7 +49,7 @@ class Git extends BaseCommand
 
     // Determine the last commit message to use as the deployment
     // commit message.
-    $last_commit_message = trim($git_local->lastCommitMessage());
+    $last_commit_message = addslashes(trim($git_local->lastCommitMessage()));
 
     $output->writeln("Deploying project to a git artifact repo's '$branch' branch'");
     $output->writeln("Cloning artifact repo from $uri");
