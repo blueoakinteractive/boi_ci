@@ -91,7 +91,12 @@ class InitCi extends BaseCommand
     else {
       $timezone = "America/New_York";
     }
-    $shell = new Shell();
-    $shell->execute("echo date.timezone=$timezone >> $ini_path");
+
+    // Make sure an ini file is loaded before attempting to
+    // write to it.
+    if (!empty($ini_path)) {
+      $shell = new Shell();
+      $shell->execute("echo date.timezone=$timezone >> $ini_path");
+    }
   }
 }
