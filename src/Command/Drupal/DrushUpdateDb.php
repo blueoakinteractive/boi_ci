@@ -37,7 +37,7 @@ class DrushUpdateDb extends BaseCommand
     $drush->setAlias($alias);
 
     // Run updatedb on the alias.
-    $run = $drush->drush("updatedb -y");
+    $run = $drush->updateDatabase();
     $output->writeln($run);
   }
 }

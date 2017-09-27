@@ -67,7 +67,6 @@ class Drush extends Shell
    * @return string
    */
   public function drushMake($file, $location) {
-    $this->setTimeout(null);
     return $this->execute("$this->drush make $file $location");
   }
 
@@ -108,9 +107,58 @@ class Drush extends Shell
       throw new \Exception('A remote drush alias is required to sync database');
     }
 
-    $this->setTimeout(null);
     $this->setDir(getenv("HOME"));
     $this->execute("$this->drush $this->alias status");
     $this->execute("$this->drush $this->alias sql-dump --gzip | gzip -cd | $this->drush -r $this->drush_dir sql-cli");
+  }
+
+  /**
+   * Fetch the drush status of the environment in scope.
+   *
+   * @return mixed|null
+   *   A json_decoded object or NULL if no status is returned.
+   */
+  public function getStatus() {
+    $scope = $this->getScope();
+    $status = $this->execute("$this->drush $scope status --format=json");
+    return !empty($status) ? json_decode($status) : NULL;
+  }
+
+  /**
+   * Runs drush cc/cr on the environment in scope.
+   *
+   * @return string
+   */
+  public function clearCaches() {
+    $scope = $this->getScope();
+
+    // Determine the Drupal version of the environment.
+    $status = $this->getStatus();
+
+    // If the version is greater than Drupal 8 use cache rebuild.
+    if (!empty($status->{'drupal-version'}) && floatval($status->{'drupal-version'}) >= 8) {
+      return $this->execute("$this->drush $scope cr");
+    }
+
+    // Use cc all for all other versions.
+    return $this->execute("$this->drush $scope cc all");
+  }
+
+  /**
+   * Run updatedb on the environment in scope.
+   *
+   * @return string
+   *   Output of the commands.
+   */
+  public function updateDatabase() {
+    $scope = $this->getScope();
+
+    // Run updatedb without clearing caches.
+    $output = $this->execute("$this->drush $scope updatedb -y --cache-clear=0");
+
+    // Clear the caches manually regardless of database updates.
+    $output .= $this->clearCaches();
+
+    return $output;
   }
 }
