@@ -19,6 +19,9 @@ class Drush extends Shell
     }
 
     $this->drush_dir = $drush_dir;
+
+    // Remove timeouts for all drush commands.
+    $this->setTimeout(null);
   }
 
   /**
