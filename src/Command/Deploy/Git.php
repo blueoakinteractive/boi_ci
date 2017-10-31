@@ -76,9 +76,9 @@ class Git extends BaseCommand
 
     // Determine the flags to be used by rsync.
     $flags = 'vr';
-    if (empty($this->config['environments'][$environment]['keep_symlinks'])) {
-      $flags .= 'L';
-    }
+    // Add the flag to handle symbolic links (retained or resolved).
+    $flags .= empty($this->config['environments'][$environment]['keep_symlinks']) ? 'L' : 'l';
+
 
     $rsync->setFlags($flags);
     $rsync->addOption('--delete');
