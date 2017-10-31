@@ -74,7 +74,13 @@ class Git extends BaseCommand
       }
     }
 
-    $rsync->setFlags('vrL');
+    // Determine the flags to be used by rsync.
+    $flags = 'vr';
+    if (empty($this->config['environments'][$environment]['keep_symlinks'])) {
+      $flags .= 'L';
+    }
+
+    $rsync->setFlags($flags);
     $rsync->addOption('--delete');
 
     // Set the default source to be the build root.
