@@ -23,9 +23,11 @@ class Shell extends BaseService
    * Set the environment variables to use for all commands.
    */
   private function initEnv() {
-    // Fetch the environment variables from $_ENV if they
-    // exist. If not, use $_SERVER.
-    $env = !empty($_ENV) ? (array) $_ENV : (array) $_SERVER;
+    // Build the environment variables array for processes
+    // executed by this class.
+    $env = [];
+    $env += !empty($_ENV) ? $_ENV: [];
+    $env += !empty($_SERVER) ? $_SERVER: [];
 
     // Append ~/.composer/vendor/bin to the PATH for
     // global composer binaries.
