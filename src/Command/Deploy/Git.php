@@ -70,8 +70,8 @@ class Git extends BaseCommand
       $git_remote->gitFetch('origin', $branch);
       $git_remote->gitMerge('origin', $branch);
     } else {
-      // Perform a shallow clone of the repo.
-      $git_remote->gitClone($uri, $branch, '--depth=1');
+      // Clone the repo.
+      $git_remote->gitClone($uri, $branch);
     }
 
     // Set require configuration options to push commits.
