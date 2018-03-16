@@ -85,12 +85,12 @@ class Git extends Shell
    * Clones a git repository.
    * @param $repo
    * @param $branch
-   * @param $dir
+   * @param $options
    * @return string
    */
-  public function gitClone($repo, $branch, $dir)
+  public function gitClone($repo, $branch, $options = '')
   {
-    return $this->execute("$this->git clone $repo --branch=$branch $this->work_tree");
+    return $this->execute("$this->git clone $repo --branch=$branch $this->work_tree $options");
   }
 
   /**
@@ -105,11 +105,11 @@ class Git extends Shell
   }
 
   /**
- * Fetches from a git repository.
- * @param $remote
- * @param $branch
- * @return string
- */
+   * Fetches from a git repository.
+   * @param $remote
+   * @param $branch
+   * @return string
+   */
   public function gitFetch($remote, $branch)
   {
     return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir fetch $remote $branch");

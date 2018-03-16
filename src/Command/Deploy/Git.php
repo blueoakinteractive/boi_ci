@@ -37,7 +37,14 @@ class Git extends BaseCommand
     $branch = !empty($this->config['environments'][$environment]['git']['branch']) ? $this->config['environments'][$environment]['git']['branch'] : 'master';
 
     // Define a temporary path for writing to during deployment.
-    $path = $this->config['temp'] . '/' . uniqid();
+    // If an artifact root is specified, use that. Otherwise,
+    // create a unique temporary directory.
+    if (!empty($this->config['build']['artifact_root'])) {
+      $path = $this->config['temp'] . '/' . $this->config['build']['artifact_root'];
+    }
+    else {
+      $path = $this->config['temp'] . '/' . uniqid();
+    }
 
     // Bring the local git repository into scope.
     $git_local = new GitCommand($this->dir);
@@ -55,7 +62,17 @@ class Git extends BaseCommand
     $output->writeln("Cloning artifact repo from $uri");
     $git_remote = new GitCommand($path);
     $git_remote->setTimeout(null);
-    $git_remote->gitClone($uri, $branch, $path);
+
+    // If the remote repo has already been cloned and exists in
+    // the cache we can save time by fetch/merge. Otherwise,
+    // we need to clone the entire repo.
+    if (file_exists($path .'/.git')) {
+      $git_remote->gitFetch('origin', $branch);
+      $git_remote->gitMerge('origin', $branch);
+    } else {
+      // Perform a shallow clone of the repo.
+      $git_remote->gitClone($uri, $branch, '--depth=1');
+    }
 
     // Set require configuration options to push commits.
     $git_email = !empty($this->config['environments'][$environment]['git']['user']['email']) ? $this->config['environments'][$environment]['git']['user']['email'] : 'boici@example.com';
