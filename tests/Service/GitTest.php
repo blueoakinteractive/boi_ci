@@ -22,7 +22,7 @@ class GitTest extends TestCase
   {
     $repo = GIT_TEST_TEMP_DIR_BASE . '/' . uniqid();
     $git = new Git($repo);
-    $git->gitClone('git@gitlab.com:blueoakinteractive/boi_ci_tests.git', 'master', $repo);
+    $git->gitClone('git@gitlab.com:blueoakinteractive/boi_ci_tests.git', 'master', '--depth=1');
     $this->assertFileExists($repo . '/README.md');
     return $repo;
   }
