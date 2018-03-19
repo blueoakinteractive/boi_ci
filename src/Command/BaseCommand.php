@@ -18,7 +18,7 @@ class BaseCommand extends Command
     $this->setConfig();
 
     // Verify temporary directory is defined and writable.
-    if (empty($this->config['temp']) || !file_exists($this->config['temp'])) {
+    if (empty($this->config['temp']) || (!file_exists($this->config['temp']) && !mkdir($this->config['temp'], 0777, true))) {
       throw new \Exception("The temp directory is not defined or does not exist in your config file.");
     }
 
