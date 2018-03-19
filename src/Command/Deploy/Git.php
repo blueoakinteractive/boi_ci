@@ -59,7 +59,6 @@ class Git extends BaseCommand
     $last_commit_message = addslashes(trim($git_local->lastCommitMessage()));
 
     $output->writeln("Deploying project to a git artifact repo's '$branch' branch'");
-    $output->writeln("Cloning artifact repo from $uri");
     $git_remote = new GitCommand($path);
     $git_remote->setTimeout(null);
 
@@ -67,10 +66,12 @@ class Git extends BaseCommand
     // the cache we can save time by fetch/merge. Otherwise,
     // we need to clone the entire repo.
     if (file_exists($path .'/.git')) {
+      $output->writeln("Cached artifact repo exists. Fetching repo from $uri");
       $git_remote->gitFetch('origin', $branch);
       $git_remote->gitMerge('origin', $branch);
     } else {
       // Clone the repo.
+      $output->writeln("No cached artifact repo. Cloning fresh artifact repo from $uri");
       $git_remote->gitClone($uri, $branch);
     }
 
