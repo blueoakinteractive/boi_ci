@@ -64,10 +64,11 @@ class Drush extends Shell
    * Executes drush make.
    * @param $file
    * @param $location
+   * @param $options
    * @return string
    */
-  public function drushMake($file, $location) {
-    return $this->execute("$this->drush make $file $location");
+  public function drushMake($file, $location, $options = '') {
+    return $this->execute("$this->drush make $options $file $location");
   }
 
   /**

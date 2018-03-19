@@ -49,7 +49,7 @@ class DrushMake extends BaseCommand
     $output->writeln("Building site from $this->dir/$makefile");
     $drush = new DrushCommand($this->dir);
     $path = $this->config['temp'] . '/' . uniqid();
-    $drush->drushMake($this->dir . '/'. $makefile, $path);
+    $drush->drushMake($this->dir . '/'. $makefile, $path, '--shallow-clone');
 
     // Initialize the rsync server to sync files from the
     // temporary build directory into the build root.
