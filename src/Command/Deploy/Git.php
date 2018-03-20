@@ -147,8 +147,11 @@ class Git extends BaseCommand
     $output->writeln('Pushing changes to artifact repo');
     $git_remote->gitPush("origin", $branch);
 
-    // Clean up the temporary directory.
-    (new Filesystem)->remove($path);
+    // Clean up the artifact repo if a temporary directory
+    // was used.
+    if (empty($this->config['build']['artifact_root'])) {
+      (new Filesystem)->remove($path);
+    }
     $output->writeln('Deploy complete');
   }
 }
