@@ -49,6 +49,11 @@ class DrushMake extends BaseCommand
     $output->writeln("Building site from $this->dir/$makefile");
     $drush = new DrushCommand($this->dir);
     $path = $this->config['temp'] . '/' . uniqid();
+
+    // Clear the drush cache to make sure package data is updated.
+    $drush->drush('cc drush');
+
+    // Run drush make to build the project.
     $drush->drushMake($this->dir . '/'. $makefile, $path, '--shallow-clone');
 
     // Initialize the rsync server to sync files from the
