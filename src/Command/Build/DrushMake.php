@@ -6,6 +6,7 @@ use BOI_CI\Command\BaseCommand;
 use BOI_CI\Service\Drush as DrushCommand;
 use BOI_CI\Service\Rsync;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -22,7 +23,8 @@ class DrushMake extends BaseCommand
     $this
       ->setName('build:drush-make')
       ->setDescription('Builds a site from a drush make file.')
-      ->addArgument('makefile', InputArgument::OPTIONAL, 'The location of the makefile');
+      ->addArgument('makefile', InputArgument::OPTIONAL, 'The location of the makefile')
+      ->addOption('make-arguments', null, InputOption::VALUE_OPTIONAL);
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
@@ -53,8 +55,10 @@ class DrushMake extends BaseCommand
     // Clear the drush cache to make sure package data is updated.
     $drush->drush('cc drush');
 
+    $make_arguments = $input->getOption('make-arguments');
+
     // Run drush make to build the project.
-    $drush->drushMake($this->dir . '/'. $makefile, $path, '--shallow-clone');
+    $drush->drushMake($this->dir . '/'. $makefile, $path, $make_arguments);
 
     // Initialize the rsync server to sync files from the
     // temporary build directory into the build root.
