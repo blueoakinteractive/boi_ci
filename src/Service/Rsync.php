@@ -15,10 +15,13 @@ class Rsync extends Shell
     parent::__construct();
     $this->rsync = trim($this->execute("which rsync"));
 
-    // Make sure git is installed and available.
+    // Make sure rsync is installed and available.
     if (empty($this->rsync)) {
       throw new \Exception('Rsync not found');
     }
+
+    // Disable the timeout for rsync commands.
+    $this->setTimeout(null);
   }
 
   /**
