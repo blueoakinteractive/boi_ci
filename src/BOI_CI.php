@@ -44,7 +44,7 @@ class BOI_CI {
    *
    * @return array
    */
-  private function getCommands()
+  protected function getCommands()
   {
     return [
       new Command\Build\DrushMake(),
