@@ -36,8 +36,7 @@ class BaseCommand extends Command
   /**
    * Sets the configuration from a .boi_ci.yml file.
    */
-  private function setConfig()
-  {
+  protected function setConfig()  {
     $fs = new Filesystem();
     // @todo: fix path.
     $root = getcwd();
@@ -46,4 +45,14 @@ class BaseCommand extends Command
       $this->config['root'] = $root;
     }
   }
+
+  /**
+   * Return the loaded config array.
+   *
+   * @return mixed
+   */
+  public function getConfig() {
+    return $this->config;
+  }
+
 }
