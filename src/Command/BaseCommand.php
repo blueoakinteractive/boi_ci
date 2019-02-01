@@ -14,7 +14,7 @@ class BaseCommand extends Command
 
   public function __construct($name = null) {
     parent::__construct($name);
-    $this->dir = getcwd();
+    $this->setDir();
     $this->setConfig();
 
     // Verify temporary directory is defined and writable.
@@ -53,6 +53,21 @@ class BaseCommand extends Command
    */
   public function getConfig() {
     return $this->config;
+  }
+
+  /**
+   * Sets the working directory for all commands.
+   */
+  protected function setDir() {
+    $this->dir = getcwd();
+  }
+
+  /**
+   * Gets the working directory for all commands.
+   * @return mixed
+   */
+  public function getDir() {
+    return $this->dir;
   }
 
 }
