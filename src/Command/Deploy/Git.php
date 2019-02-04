@@ -40,7 +40,7 @@ class Git extends BaseCommand
     // If an artifact root is specified, use that. Otherwise,
     // create a unique temporary directory.
     if (!empty($this->config['build']['artifact_root'])) {
-      $path = $this->config['temp'] . '/' . $this->config['build']['artifact_root'];
+      $path = $this->config['temp'] . '/' . $this->config['build']['artifact_root'] . '/' . $environment;
     }
     else {
       $path = $this->config['temp'] . '/' . uniqid();
