@@ -55,6 +55,9 @@ class Git extends BaseCommand
       $path = $this->config['temp'] . '/' . uniqid();
     }
 
+    // Make sure the artifact path exists or can be created.
+    (new Filesystem)->mkdir($path);
+
     // Bring the local git repository into scope.
     $git_local = new GitCommand($this->dir);
 
