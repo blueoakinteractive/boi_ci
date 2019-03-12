@@ -43,7 +43,7 @@ class Git extends BaseCommand
 
       // Determine if the artifact root path is absolute.
       if (strpos($this->config['build']['artifact_root'], '/') === 0) {
-        $path = putenv($this->config['build']['artifact_root'] . '/' . $environment);
+        $path = $this->config['build']['artifact_root'] . '/' . $environment;
       }
       // For relative paths, append it to the temp directory.
       else {
