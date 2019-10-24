@@ -87,6 +87,9 @@ class Symlinks extends BaseCommand
           // If the root of the destination references an absolute path.
           $destination = $symlink['destination'];
           $absolute = TRUE;
+        } else if (!empty($symlink['project_root'])) {
+          $destination = $symlink['destination'];
+          $absolute = FALSE;
         } else {
           // Otherwise, the path is relative to the build root.
           $destination = $this->config['build']['root'] . '/' . $symlink['destination'];

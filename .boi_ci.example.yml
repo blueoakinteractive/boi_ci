@@ -24,6 +24,12 @@ symlinks:
     source: .htaccess
     destination: .htaccess
     force: true
+  # Create a symlink outside of the webroot
+  # by specifying project_root: true.
+  platform.app.yml:
+    source: enviroments/platform/.platform.app.yml
+    destination: .platform.app.yml
+    project_root: true
 
 # Environments for deployments.
 environments:
