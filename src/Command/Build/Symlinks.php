@@ -38,7 +38,7 @@ class Symlinks extends BaseCommand
     // exist for that environment skip the command call.
     if (isset($environment)) {
       if (empty($this->config['environments'][$environment]['symlinks']) || !is_array($this->config['environments'][$environment]['symlinks'])) {
-        $output->writeln("<fg=magenta>Skipping symlinks for '$environment' because there are none defined in your config file.</>");
+        $output->writeln("<fg=yellow>Skipping symlinks for '$environment' because there are none defined in your config file.</>");
         return;
       }
 
@@ -51,11 +51,11 @@ class Symlinks extends BaseCommand
       $symlinks = $this->config['symlinks'];
     }
     else {
-      $output->writeln("<fg=magenta>Skipping symlinks for all environments because there are none defined in your config file.</>");
+      $output->writeln("<fg=yellow>Skipping symlinks for all environments because there are none defined in your config file.</>");
       return;
     }
 
-    $output->writeln("<fg=magenta>Setting up the following project symlinks:</>");
+    $output->writeln("<fg=green>Setting up the following project symlinks:</>");
     $fs = new Filesystem();
 
     if (!empty($symlinks)) {
