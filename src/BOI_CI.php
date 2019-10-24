@@ -49,6 +49,7 @@ class BOI_CI {
     return [
       new Command\Build\DrushMake(),
       new Command\Build\Symlinks(),
+      new Command\Build\CopyFiles(),
       new Command\Build\Tasks(),
       new Command\Deploy\Git(),
       new Command\Drupal\DrushCommand(),
