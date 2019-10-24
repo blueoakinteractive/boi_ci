@@ -3,6 +3,7 @@
 namespace BOI_CI\Command\Build;
 
 use BOI_CI\Command\BaseCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -23,19 +24,45 @@ class Symlinks extends BaseCommand
   {
     $this
       ->setName('build:symlinks')
-      ->setDescription('Sets up project symlinks');
+      ->setDescription('Sets up project symlinks')
+      ->addArgument('environment', InputArgument::OPTIONAL, 'Symlinks for a specific environment. If not provided the project global symlkins are created.');
+
   }
 
   protected function execute(InputInterface $input, OutputInterface $output)
   {
-    $output->writeln('Setting up project symlinks');
+
+    $environment = $input->getArgument('environment');
+
+    // If an environment was provided, make sure symlinks
+    // exist for that environment skip the command call.
+    if (isset($environment)) {
+      if (empty($this->config['environments'][$environment]['symlinks']) || !is_array($this->config['environments'][$environment]['symlinks'])) {
+        $output->writeln("<fg=magenta>Skipping symlinks for '$environment' because there are none defined in your config file.</>");
+        return;
+      }
+
+      $symlinks = $this->config['environments'][$environment]['symlinks'];
+    }
+
+    // If no environment was provided determine if there are
+    // global symlinks defined.
+    else if (!empty($this->config['symlinks']) && is_array($this->config['symlinks'])) {
+      $symlinks = $this->config['symlinks'];
+    }
+    else {
+      $output->writeln("<fg=magenta>Skipping symlinks for all environments because there are none defined in your config file.</>");
+      return;
+    }
+
+    $output->writeln("<fg=magenta>Setting up the following project symlinks:</>");
     $fs = new Filesystem();
 
-    if (!empty($this->config['symlinks'])) {
+    if (!empty($symlinks)) {
 
       $properties = ['source', 'destination'];
 
-      foreach ($this->config['symlinks'] as $key => $symlink) {
+      foreach ($symlinks as $key => $symlink) {
 
         // Validate all required properties are defined.
         if (array_diff($properties, array_keys($symlink))) {
