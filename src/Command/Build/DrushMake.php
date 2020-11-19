@@ -51,6 +51,7 @@ class DrushMake extends BaseCommand
     $output->writeln("Building site from $this->dir/$makefile");
     $drush = new DrushCommand($this->dir);
     $path = $this->config['temp'] . '/' . uniqid();
+    mkdir($path, 0777, TRUE);
 
     // Clear the drush cache to make sure package data is updated.
     $drush->drush('cc drush');
