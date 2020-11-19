@@ -61,6 +61,15 @@ class Drush extends Shell
   }
 
   /**
+   * Returns the installed drush version.
+   */
+  public function version()
+  {
+    $scope = $this->getScope();
+    return $this->execute("$this->drush $scope --version --pipe");
+  }
+
+  /**
    * Executes drush make.
    * @param $file
    * @param $location
