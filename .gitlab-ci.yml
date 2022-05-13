@@ -1,4 +1,4 @@
-image: blueoakinteractive/php-ci:7.1.9
+image: blueoakinteractive/php-ci:7.4
 
 before_script:
   # Build the site using composer.
