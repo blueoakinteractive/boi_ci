@@ -33,18 +33,25 @@ class BaseCommand extends Command
     }
   }
 
-  /**
+    /**
    * Sets the configuration from a .boi_ci.yml file.
    */
   protected function setConfig()  {
     $fs = new Filesystem();
-    // @todo: fix path.
-    $root = getcwd();
-    if ($fs->exists($root . '/.boi_ci.yml')) {
-      $this->config = Yaml::parse(file_get_contents($root . '/.boi_ci.yml'));
-      $this->config['root'] = $root;
+    $parts = explode('/', getcwd());
+    $path = '';
+    // Loop over all the path parts and find the first .boi_ci.yml file.
+    foreach ($parts as $part) {
+      $path .= $part . '/';
+      if ($fs->exists($path . '.boi_ci.yml')) {
+        $this->config = Yaml::parse(file_get_contents($path . '.boi_ci.yml'));
+        $this->config['root'] = $path;
+        return;
+      }
     }
+    throw new \Exception('BOI CI configuration not found. Please ensure a .boi_ci.yml file exists in your project somewhere.');
   }
+
 
   /**
    * Return the loaded config array.
