@@ -70,7 +70,7 @@ class Symlinks extends BaseCommand
         }
 
         // Validate the source file/directory exists.
-        if (!$fs->exists($this->config['root'] . '/' . $symlink['source'])) {
+        if (!$fs->exists($this->dir . '/' . $symlink['source'])) {
           $output->writeln('Skipping ' . $key . ' symlink because the source does not exist');
           continue;
         }
