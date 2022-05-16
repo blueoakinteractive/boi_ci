@@ -45,7 +45,7 @@ class BaseCommand extends Command
       $path .= $part . '/';
       if ($fs->exists($path . '.boi_ci.yml')) {
         $this->config = Yaml::parse(file_get_contents($path . '.boi_ci.yml'));
-        $this->config['root'] = $path;
+        $this->config['root'] = substr($path, 0, -1);
         return;
       }
     }
