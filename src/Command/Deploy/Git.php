@@ -59,7 +59,7 @@ class Git extends BaseCommand
     (new Filesystem)->mkdir($path);
 
     // Bring the local git repository into scope.
-    $git_local = new GitCommand($this->dir);
+    $git_local = new GitCommand($this->config['root']);
 
     // Make sure all changes to the local repo have been committed.
     if (!strstr($git_local->gitStatus(), 'nothing to commit')) {
