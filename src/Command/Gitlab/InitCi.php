@@ -22,7 +22,7 @@ class InitCi extends BaseCommand
     $this->sshAuth($output);
     $this->setPath();
     $this->setTimezone();
-    return 1;
+    return 0;
   }
 
   /**
