@@ -96,12 +96,12 @@ class Shell extends BaseService
 
   /**
    * Executes a command using \Symfony\Component\Process\Process.
-   * @param $command
-   *   The string command.
+   * @param array $command
+   *   An array of command and args.
    * @return string
    *   The output from the command.
    */
-  public function execute($command)
+  public function execute(array $command)
   {
     $process = new Process($command, $this->dir, $this->env, $this->input, $this->timeout, $this->options);
     $process->run();
