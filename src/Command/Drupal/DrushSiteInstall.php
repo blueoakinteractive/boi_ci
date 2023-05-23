@@ -23,5 +23,6 @@ class DrushSiteInstall extends BaseCommand
     $db_url = $input->getArgument('db_url');
     $drush = new DrushService($this->build_root);
     $drush->siteInstall($db_url);
+    return 0;
   }
 }

@@ -40,5 +40,6 @@ class DrushSyncDb extends BaseCommand
     // Execute the method to synchronize from the remote
     // database to the local one.
     $drush->syncDatabase();
+    return 0;
   }
 }

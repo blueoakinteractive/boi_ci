@@ -131,5 +131,6 @@ class Symlinks extends BaseCommand
       }
     }
     $output->writeln('Finished setting up project symlinks');
+    return 0;
   }
 }

@@ -24,5 +24,6 @@ class DrushRunServer extends BaseCommand
     $drush = new DrushService($this->build_root);
     $drush->setDir($this->build_root);
     $drush->runServer($url);
+    return 0;
   }
 }

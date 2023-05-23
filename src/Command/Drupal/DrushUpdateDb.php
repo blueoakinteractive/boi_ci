@@ -39,5 +39,6 @@ class DrushUpdateDb extends BaseCommand
     // Run updatedb on the alias.
     $run = $drush->updateDatabase();
     $output->writeln($run);
+    return 0;
   }
 }

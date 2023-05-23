@@ -39,5 +39,6 @@ class DrushCommand extends BaseCommand
 
     $run = $drush->drush($command);
     $output->writeln($run);
+    return 0;
   }
 }

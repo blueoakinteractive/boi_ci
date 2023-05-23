@@ -167,5 +167,6 @@ class Git extends BaseCommand
       (new Filesystem)->remove($path);
     }
     $output->writeln('Deploy complete');
+    return 0;
   }
 }

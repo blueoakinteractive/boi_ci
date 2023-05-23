@@ -62,5 +62,6 @@ class Tasks extends BaseCommand
     }
 
     $output->writeln("Tasks for $environment environment(s) complete");
+    return 0;
   }
 }

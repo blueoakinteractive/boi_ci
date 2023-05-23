@@ -89,6 +89,7 @@ class DrushMake extends BaseCommand
     (new Filesystem)->remove($path);
 
     $output->writeln('Build complete');
+    return 0;
   }
 
   /**

@@ -134,5 +134,6 @@ class CopyFiles extends BaseCommand
       }
     }
     $output->writeln('Finished setting up copied files');
+    return 0;
   }
 }
