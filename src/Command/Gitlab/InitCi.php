@@ -77,7 +77,7 @@ class InitCi extends BaseCommand
     if (!empty($this->config['ci']['path'])) {
       $path .= ":$this->config['ci']['path']";
     }
-    $shell->execute(['export', 'PATH=$path']);
+    $shell->execute(['export', "PATH=$path"]);
   }
 
   /**
