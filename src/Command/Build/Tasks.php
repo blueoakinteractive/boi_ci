@@ -28,7 +28,7 @@ class Tasks extends BaseCommand
     if (isset($environment)) {
       if (empty($this->config['environments'][$environment]['tasks']) || !is_array($this->config['environments'][$environment]['tasks'])) {
         $output->writeln("<fg=magenta>Skipping tasks for '$environment' because there are none defined in your config file.</>");
-        return;
+        return 0;
       }
 
       $tasks = $this->config['environments'][$environment]['tasks'];
@@ -39,7 +39,7 @@ class Tasks extends BaseCommand
     else {
       if (empty($this->config['build']['tasks']) || !is_array($this->config['build']['tasks'])) {
         $output->writeln('Skipping project build tasks since there are none defined in your config.');
-        return;
+        return 0;
       }
 
       $tasks = $this->config['build']['tasks'];

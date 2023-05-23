@@ -38,7 +38,7 @@ class CopyFiles extends BaseCommand
     if (isset($environment)) {
       if (empty($this->config['environments'][$environment]['copy_files']) || !is_array($this->config['environments'][$environment]['copy_files'])) {
         $output->writeln("<fg=yellow>Skipping copied files for '$environment' because there are none defined in your config file.</>");
-        return;
+        return 0;
       }
 
       $copy_files = $this->config['environments'][$environment]['copy_files'];
@@ -51,7 +51,7 @@ class CopyFiles extends BaseCommand
     }
     else {
       $output->writeln("<fg=yellow>Skipping copied files for all environments because there are none defined in your config file.</>");
-      return;
+      return 0;
     }
 
     $output->writeln("<fg=green>Setting up the following project copied files:</>");

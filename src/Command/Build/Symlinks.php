@@ -39,7 +39,7 @@ class Symlinks extends BaseCommand
     if (isset($environment)) {
       if (empty($this->config['environments'][$environment]['symlinks']) || !is_array($this->config['environments'][$environment]['symlinks'])) {
         $output->writeln("<fg=yellow>Skipping symlinks for '$environment' because there are none defined in your config file.</>");
-        return;
+        return 0;
       }
 
       $symlinks = $this->config['environments'][$environment]['symlinks'];
