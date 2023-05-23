@@ -41,7 +41,7 @@ class GitTest extends TestCase
     $fs->touch($repo . '/' . $filename);
     $git->gitAdd($filename);
     $status = $git->gitStatus();
-    $this->assertContains('new file:   ' . $filename, $status);
+    $this->assertStringContainsString('new file:   ' . $filename, $status);
     return $repo;
   }
 
@@ -62,9 +62,9 @@ class GitTest extends TestCase
     $commit_message = 'Testing commit of ' . $repo;
     $git->gitCommit($commit_message);
     $status = $git->gitStatus();
-    $this->assertContains('nothing to commit', $status);
+    $this->assertStringContainsString('nothing to commit', $status);
     $last_commit = $git->lastCommitMessage();
-    $this->assertContains($commit_message, $last_commit);
+    $this->assertStringContainsString($commit_message, $last_commit);
     return $repo;
   }
 
@@ -80,7 +80,9 @@ class GitTest extends TestCase
     $git->gitPush('origin', 'master');
     $git->gitFetch('origin', 'master');
     $status = $git->gitStatus();
-    $this->assertContains("Your branch is up-to-date with 'origin/master'", $status);
+    $expectedSubstring = "Your branch is up to date with 'origin/master'";
+    $pattern = '/.*' . preg_quote($expectedSubstring, '/') . '.*/s';
+    $this->assertMatchesRegularExpression($pattern, $status);
     return $repo;
   }
 }

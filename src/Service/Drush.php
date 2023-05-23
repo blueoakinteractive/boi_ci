@@ -2,16 +2,14 @@
 
 namespace BOI_CI\Service;
 
-class Drush extends Shell
-{
+class Drush extends Shell {
   protected $drush;
   protected $drush_dir;
   protected $alias;
 
-  public function __construct($drush_dir)
-  {
+  public function __construct($drush_dir) {
     parent::__construct();
-    $this->drush = trim($this->execute("which drush"));
+    $this->drush = trim($this->execute(['which', 'drush']));
 
     // Make sure drush is installed and available.
     if (empty($this->drush)) {
@@ -28,8 +26,7 @@ class Drush extends Shell
    * Sets a drush alias for executed commands.
    * @param $alias
    */
-  public function setAlias($alias)
-  {
+  public function setAlias($alias) {
     $this->alias = $alias;
   }
 
@@ -37,8 +34,7 @@ class Drush extends Shell
    * Determines appropriate scope for drush commands.
    * @return string
    */
-  protected function getScope()
-  {
+  protected function getScope() {
     // If an alias is specified, use it as the scope.
     if (!empty($this->alias)) {
       return $this->alias;
@@ -54,19 +50,17 @@ class Drush extends Shell
    * @param $command
    * @return string
    */
-  public function drush($command)
-  {
+  public function drush($command) {
     $scope = $this->getScope();
-    return $this->execute("$this->drush $scope $command");
+    return $this->execute([$this->drush, $scope, $command]);
   }
 
   /**
    * Returns the installed drush version.
    */
-  public function version()
-  {
+  public function version() {
     $scope = $this->getScope();
-    return $this->execute("$this->drush $scope --version --pipe");
+    return $this->execute([$this->drush, $scope, '--version', '--pipe']);
   }
 
   /**
@@ -77,7 +71,7 @@ class Drush extends Shell
    * @return string
    */
   public function drushMake($file, $location, $options = '') {
-    return $this->execute("$this->drush make $options $file $location");
+    return $this->execute([$this->drush, 'make', $options, $file, $location]);
   }
 
   /**
@@ -90,10 +84,9 @@ class Drush extends Shell
    * @param string $account_pass
    * @param null $options
    */
-  public function siteInstall($db_url, $profile = "standard", $site_name="boi_ci", $account_mail = "boi_ci@example.com", $account_name = "boi_ci", $account_pass = "boi_ci", $options = null)
-  {
+  public function siteInstall($db_url, $profile = "standard", $site_name = "boi_ci", $account_mail = "boi_ci@example.com", $account_name = "boi_ci", $account_pass = "boi_ci", $options = null) {
     $scope = $this->getScope();
-    $this->execute("$this->drush $scope site-install $profile install_configure_form.enable_update_status_module=NULL install_configure_form.enable_update_status_emails=NULL -y $options --db-url=\"$db_url\" --site-name=\"$site_name\"  --account-mail=\"$account_mail\" --account-name=\"$account_name\" --account-pass=\"$account_pass\"");
+    $this->execute([$this->drush, $scope, 'site-install', $profile, 'install_configure_form.enable_update_status_module=NULL', 'install_configure_form.enable_update_status_emails=NULL', '-y', $options, '--db-url="' . $db_url . '"', '--site-name="' . $site_name . '"', '--account-mail="' . $account_mail . '"', '--account-name="' . $account_name . '"', '--account-pass="' . $account_pass . '"']);
   }
 
   /**
@@ -101,25 +94,23 @@ class Drush extends Shell
    * @param $uri
    * @param string $options
    */
-  public function runServer($uri, $options = '--server=builtin --strict=0')
-  {
+  public function runServer($uri, $options = '--server=builtin --strict=0') {
     $scope = $this->getScope();
-    $this->background("$this->drush $scope runserver --uri=$uri $options");
+    $this->background([$this->drush, $scope, 'runserver', '--uri=' . $uri, $options]);
   }
 
   /**
    * Exports the database from an alias and imports it locally.
    * @throws \Exception
    */
-  public function syncDatabase()
-  {
+  public function syncDatabase() {
     if (empty($this->alias)) {
       throw new \Exception('A remote drush alias is required to sync database');
     }
 
     $this->setDir(getenv("HOME"));
-    $this->execute("$this->drush $this->alias status");
-    $this->execute("$this->drush $this->alias sql-dump --gzip | gzip -cd | $this->drush -r $this->drush_dir sql-cli");
+    $this->execute([$this->drush, $this->alias, 'status']);
+    $this->execute([$this->drush, $this->alias, 'sql-dump', '--gzip', '|', 'gzip', '-cd', '|', $this->drush, '-r', $this->drush_dir, 'sql-cli']);
   }
 
   /**
@@ -130,7 +121,7 @@ class Drush extends Shell
    */
   public function getStatus() {
     $scope = $this->getScope();
-    $status = $this->execute("$this->drush $scope status --format=json");
+    $status = $this->execute([$this->drush, $scope, 'status', '--format=json']);
     return !empty($status) ? json_decode($status) : NULL;
   }
 
@@ -147,11 +138,11 @@ class Drush extends Shell
 
     // If the version is greater than Drupal 8 use cache rebuild.
     if (!empty($status->{'drupal-version'}) && floatval($status->{'drupal-version'}) >= 8) {
-      return $this->execute("$this->drush $scope cr");
+      return $this->execute([$this->drush, $scope, 'cr']);
     }
 
     // Use cc all for all other versions.
-    return $this->execute("$this->drush $scope cc all");
+    return $this->execute([$this->drush, $scope, 'cc', 'all']);
   }
 
   /**
@@ -164,7 +155,7 @@ class Drush extends Shell
     $scope = $this->getScope();
 
     // Run updatedb without clearing caches.
-    $output = $this->execute("$this->drush $scope updatedb -y --cache-clear=0");
+    $output = $this->execute([$this->drush, $scope, 'updatedb', '-y', '--cache-clear=0']);
 
     // Clear the caches manually regardless of database updates.
     $output .= $this->clearCaches();

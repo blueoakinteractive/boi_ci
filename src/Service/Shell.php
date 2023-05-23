@@ -110,7 +110,7 @@ class Shell extends BaseService
       throw new ProcessFailedException($process);
     }
 
-    return $process->getOutput();
+    return $process->getIncrementalOutput();
   }
 
   /**

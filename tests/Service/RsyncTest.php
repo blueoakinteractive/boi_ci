@@ -2,7 +2,6 @@
 
 namespace BOI_CI\Service;
 
-use phpDocumentor\Reflection\File;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -43,7 +42,7 @@ class RsyncTest extends TestCase
     // Execute rsync and verify output.
     $output = $rsync->sync();
 
-    $this->assertNotContains('failed', $output);
+    $this->assertStringNotContainsString('failed', $output);
     return $this->rsync_destination;
   }
 
@@ -65,7 +64,7 @@ class RsyncTest extends TestCase
    */
   public function testFileExclude($destination)
   {
-    $this->assertFileNotExists($destination . '/composer.lock');
+    $this->assertFileDoesNotExist($destination . '/composer.lock');
   }
 
   /**
@@ -75,14 +74,14 @@ class RsyncTest extends TestCase
    */
   public function testFileDelete($destination)
   {
-    $this->assertFileNotExists($destination . '/delete.txt');
+    $this->assertFileDoesNotExist($destination . '/delete.txt');
   }
 
   /**
    * Get the junk out the trunk.
    * @depends testSync
    */
-  public static function tearDownAfterClass()
+  public static function tearDownAfterClass():void
   {
     parent::tearDownAfterClass();
     // Clean up the temp directory.

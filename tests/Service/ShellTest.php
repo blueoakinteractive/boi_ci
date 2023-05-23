@@ -25,7 +25,7 @@ class ShellTest extends TestCase
   public function testEnvPathGlobalComposerBin(Shell $shell)
   {
     $env = $shell->getEnv();
-    $this->assertContains(getenv('HOME') . '/.composer/vendor/bin', $env['PATH']);
+    $this->assertStringContainsString(getenv('HOME') . '/.composer/vendor/bin', $env['PATH']);
   }
 
   /**
@@ -36,7 +36,9 @@ class ShellTest extends TestCase
    */
   public function testExecute(Shell $shell)
   {
-    $output = $shell->execute('ls');
-    $this->assertContains('composer.json', $output);
+    $output = $shell->execute(['ls']);
+    $expectedSubstring = 'composer.json';
+    $pattern = '/.*' . preg_quote($expectedSubstring, '/') . '.*/s';
+    $this->assertMatchesRegularExpression($pattern, $output);
   }
 }

@@ -2,16 +2,14 @@
 
 namespace BOI_CI\Service;
 
-class Git extends Shell
-{
+class Git extends Shell {
   protected $git;
   protected $work_tree;
   protected $git_dir;
 
-  public function __construct($repo_dir)
-  {
+  public function __construct($repo_dir) {
     parent::__construct();
-    $this->git = trim($this->execute("which git"));
+    $this->git = trim($this->execute(['which', 'git']));
 
     // Make sure git is installed and available.
     if (empty($this->git)) {
@@ -26,27 +24,24 @@ class Git extends Shell
    * Returns the last git commit message.
    * @return string
    */
-  public function lastCommitMessage()
-  {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir log --format=%B --no-merges -n 1");
+  public function lastCommitMessage() {
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'log', '--format=%B', '--no-merges', '-n 1']);
   }
 
   /**
    * Returns the git repository status.
    * @return string
    */
-  public function gitStatus()
-  {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir status");
+  public function gitStatus() {
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'status']);
   }
 
   /**
-   * Returns a git dif.
+   * Returns a git diff.
    * @return string
    */
-  public function gitDiff()
-  {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir diff");
+  public function gitDiff() {
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'diff']);
   }
 
   /**
@@ -54,9 +49,8 @@ class Git extends Shell
    * @param $items
    * @return string
    */
-  public function gitAdd($items)
-  {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir add $items");
+  public function gitAdd($items) {
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'add', $items]);
   }
 
   /**
@@ -64,10 +58,9 @@ class Git extends Shell
    * @param $message
    * @return string
    */
-  public function gitCommit($message)
-  {
+  public function gitCommit($message) {
     $message = str_replace(["\n", "\t"], "", $message);
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir commit -m \"$message\"");
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'commit', '-m', $message]);
   }
 
   /**
@@ -76,9 +69,8 @@ class Git extends Shell
    * @param $branch
    * @return string
    */
-  public function gitPush($remote, $branch)
-  {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir push $remote $branch");
+  public function gitPush($remote, $branch) {
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'push', $remote, $branch]);
   }
 
   /**
@@ -88,9 +80,9 @@ class Git extends Shell
    * @param $options
    * @return string
    */
-  public function gitClone($repo, $branch, $options = '')
-  {
-    return $this->execute("$this->git clone $repo --branch=$branch $this->work_tree $options");
+  public function gitClone($repo, $branch, $options = '') {
+    $command = array_filter([$this->git, 'clone', $repo, '--branch=' . $branch, $this->work_tree, $options]);
+    return $this->execute($command);
   }
 
   /**
@@ -99,9 +91,8 @@ class Git extends Shell
    * @param $branch
    * @return string
    */
-  public function gitMerge($remote, $branch)
-  {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir merge $remote/$branch");
+  public function gitMerge($remote, $branch) {
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'merge', $remote . '/' . $branch]);
   }
 
   /**
@@ -110,9 +101,8 @@ class Git extends Shell
    * @param $branch
    * @return string
    */
-  public function gitFetch($remote, $branch)
-  {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir fetch $remote $branch");
+  public function gitFetch($remote, $branch) {
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'fetch', $remote, $branch]);
   }
 
   /**
@@ -121,8 +111,7 @@ class Git extends Shell
    * @param $value
    * @return string
    */
-  public function gitConfig($option, $value)
-  {
-    return $this->execute("$this->git --work-tree=$this->work_tree --git-dir=$this->git_dir config $option \"$value\"");
+  public function gitConfig($option, $value) {
+    return $this->execute([$this->git, '--work-tree=' . $this->work_tree, '--git-dir=' . $this->git_dir, 'config', $option, $value]);
   }
 }

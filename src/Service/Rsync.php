@@ -2,18 +2,16 @@
 
 namespace BOI_CI\Service;
 
-class Rsync extends Shell
-{
+class Rsync extends Shell {
   protected $rsync;
   protected $rsync_options;
-  protected $rsync_flags = '-vr';
+  protected $rsync_flags = ['-vr'];
   protected $source;
   protected $destination;
 
-  public function __construct()
-  {
+  public function __construct() {
     parent::__construct();
-    $this->rsync = trim($this->execute("which rsync"));
+    $this->rsync = trim($this->execute(['which', 'rsync']));
 
     // Make sure rsync is installed and available.
     if (empty($this->rsync)) {
@@ -29,9 +27,8 @@ class Rsync extends Shell
    * @return string
    * @throws \Exception
    */
-  public function sync()
-  {
-    $rsync_options = !empty($this->rsync_options) ? implode(" ", $this->rsync_options) : "";
+  public function sync() {
+    $rsync_options = !empty($this->rsync_options) ? $this->rsync_options : [];
 
     if (empty($this->source)) {
       throw new \Exception('No source specified for rsync');
@@ -41,15 +38,15 @@ class Rsync extends Shell
       throw new \Exception('No destination specified for rsync');
     }
 
-    return $this->execute("$this->rsync $this->rsync_flags $this->source $this->destination $rsync_options");
+    $command = array_merge([$this->rsync], $this->rsync_flags, [$this->source, $this->destination], $rsync_options);
+    return $this->execute($command);
   }
 
   /**
    * The source to copy from.
    * @param $source
    */
-  public function setSource($source)
-  {
+  public function setSource($source) {
     $this->source = $source . '/';
   }
 
@@ -57,8 +54,7 @@ class Rsync extends Shell
    * The destination to copy to.
    * @param $destination
    */
-  public function setDestination($destination)
-  {
+  public function setDestination($destination) {
     $this->destination = $destination . '/';
   }
 
@@ -66,8 +62,7 @@ class Rsync extends Shell
    * Paths to be excluded from the rsync command.
    * @param $path
    */
-  public function addExclude($path)
-  {
+  public function addExclude($path) {
     $this->rsync_options[] = "--exclude=$path";
   }
 
@@ -75,7 +70,7 @@ class Rsync extends Shell
    * Add option to the rsync command.
    * @param $option
    */
-  public function addOption($option){
+  public function addOption($option) {
     $this->rsync_options[] = $option;
   }
 
@@ -83,8 +78,7 @@ class Rsync extends Shell
    * Set rsync_flags on the rsync command.
    * @param $rsync_flags
    */
-  public function setFlags($rsync_flags)
-  {
-    $this->rsync_flags = '-' . $rsync_flags;
+  public function setFlags($rsync_flags) {
+    $this->rsync_flags = ['-' . $rsync_flags];
   }
 }
