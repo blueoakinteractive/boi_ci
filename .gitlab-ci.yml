@@ -3,11 +3,6 @@ image: blueoakinteractive/php-ci:8.1
 before_script:
   # Build the site using composer.
   - composer install --prefer-dist --no-interaction --no-progress
-
-  # Drush cannot be used as a dev dependency because of
-  # symfony component version conflicts.
-  - composer global require drush/drush
-
   - cp $CI_PROJECT_DIR/.boi_ci.example.yml $CI_PROJECT_DIR/.boi_ci.yml
   - bin/boi_ci gitlab:init-ci
 
