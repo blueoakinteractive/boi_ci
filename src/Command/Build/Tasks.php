@@ -57,7 +57,7 @@ class Tasks extends BaseCommand
       $shell = new Shell();
       $shell->setDir($this->build_root . '/' . $task['directory']);
       $shell->setTimeout(null);
-      $execute = $shell->execute($task['command']);
+      $execute = $shell->execute([$task['command']]);
       $output->writeln("$execute");
     }
 

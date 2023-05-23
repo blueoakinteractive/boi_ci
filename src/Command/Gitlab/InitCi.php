@@ -33,14 +33,14 @@ class InitCi extends BaseCommand
     $deploy_key = getenv("DEPLOY_KEY");
     if (!empty($deploy_key)) {
       $shell = new Shell();
-      $ssh_agent = trim($shell->execute("which ssh-agent"));
+      $ssh_agent = trim($shell->execute(['which', 'ssh-agent']));
 
       // Warn that ssh agent is not available.
       if (empty($ssh_agent)) {
         $output->writeln("<fg=magenta>Unable to locate ssh-agent command. Commands that require ssh authentication will not pass.</>");
       }
       else {
-        $ssh_add = trim($shell->execute("which ssh-add"));
+        $ssh_add = trim($shell->execute(['which', 'ssh-add']));
         $key_file = $this->config['temp'] .'/'.  uniqid() . '.pem';
 
         // Copy the DEPLOY_KEY to a file and execute ssh-add.
@@ -49,7 +49,7 @@ class InitCi extends BaseCommand
         $fs->touch($key_file);
         $fs->dumpFile($key_file, $deploy_key);
         $fs->chmod($key_file, 0400);
-        $shell->execute("$ssh_add $key_file");
+        $shell->execute([$ssh_add, $key_file]);
         $fs->remove($key_file);
 
         // Disable strict host key checking for deployments.
@@ -77,7 +77,7 @@ class InitCi extends BaseCommand
     if (!empty($this->config['ci']['path'])) {
       $path .= ":$this->config['ci']['path']";
     }
-    $shell->execute("export PATH=$path");
+    $shell->execute(['export', 'PATH=$path']);
   }
 
   /**
@@ -96,7 +96,7 @@ class InitCi extends BaseCommand
     // write to it.
     if (!empty($ini_path)) {
       $shell = new Shell();
-      $shell->execute("echo date.timezone=$timezone >> $ini_path");
+      $shell->execute(["echo", "date.timezone=$timezone >> $ini_path"]);
     }
   }
 }
