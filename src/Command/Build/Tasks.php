@@ -55,7 +55,8 @@ class Tasks extends BaseCommand
 
       $output->writeln("Executing $key task for $environment environment(s)");
       $shell = new Shell();
-      $shell->setDir($this->build_root . '/' . $task['directory']);
+      $workingDirectory = realpath($this->build_root . '/' . $task['directory']);
+      $shell->setDir($workingDirectory);
       $shell->setTimeout(null);
       $execute = $shell->execute(explode(' ', $task['command']));
       $output->writeln("$execute");
