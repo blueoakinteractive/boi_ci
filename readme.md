@@ -8,7 +8,7 @@ The BOI CI was developed by [Blue Oak Interactive](https://www.blueoakinteractiv
 3) You want to simplify your build process.
 
 ## Installation Requirements
-- [Composer](https://getcomposer.org/) - PHP Dependency management 
+- [Composer](https://getcomposer.org/) - PHP Dependency management
 - [Symfony ~2.8](https://symfony.com/) - Symfony 2 is required  as the Drupal Console for Drupal 8 currently runs on Symfony
  - [Drush ~8](http://www.drush.org/en/master/) - Drupal Shell
 - [Git ~2](https://git-scm.com/) - For version control
@@ -21,7 +21,7 @@ To simplify the configuration process we have created example projects that you 
 - [Platform.sh](https://platform.sh/)
 - [Pantheon.io](https://pantheon.io/)
 - [Acquia.com](https://www.acquia.com/)
-- As well as other non-Drupal specific providers 
+- As well as other non-Drupal specific providers
 
 **See:** [blueoakinterative/boi_ci_examples](https://gitlab.com/blueoakinteractive/boi_ci_examples)
 
@@ -97,25 +97,25 @@ The environments section allows you to define external environments that will be
 Each environment should have a git artifact repo defined. This represents the git remote and branch that will be pushed to whenever a build it being deployed.
 
 #### Environment Artifiact Repo Root
- 
-When configuring your environment you can specify the `root` variable that defines the artifact repo's desired git root. 
+
+When configuring your environment you can specify the `root` variable that defines the artifact repo's desired git root.
 
 The default root value is `build_root` which essentially means that the build directory will be committed and pushed to your artifact repo.  Alternatively you can set the value to `source_root` which will commit the entire project directory to your artifact repo.
 
 #### Environment Drush Alias Definition
 
-In order to call drush commands on remote environments you will need to define a drush alias per environment.  These aliases are defined in your project drush alias file as seen in the sample `.boi_ci.yml` file below. 
+In order to call drush commands on remote environments you will need to define a drush alias per environment.  These aliases are defined in your project drush alias file as seen in the sample `.boi_ci.yml` file below.
 
 *ie: `example.aliases.drushrc.php`*
 
-```  
+```
 drush:
   alias: example.development
-``` 
+```
 
 #### Environment Artifiact Repo Exclusions
 
-When building to an artifact repo there may be instances where you do not need all of the files stored in the `source_root`.  This is where exlusions come in handy.  
+When building to an artifact repo there may be instances where you do not need all of the files stored in the `source_root`.  This is where exlusions come in handy.
 
 ```
 exclude:
@@ -133,6 +133,16 @@ exclude:
 # paths.
 build:
   root: www
+  tasks:
+    example_task:
+      # Commands are run in the build root. To run in the project root, use a relative path.
+      directory: "../"
+      command: "echo 'create a file in the root' > example.txt"
+  tests:
+    example_test:
+      directory: "../"
+      command: "phpcs --standard=phpcs.xml ./"
+
 
 # Required temporary directory for build tasks.
 temp: /tmp
@@ -203,6 +213,15 @@ environments:
      - /composer.*
      - /.gitignore
      - /project.make
+    tasks:
+      example_task:
+        # Commands are run in the build root. To run in the project root, use a relative path.
+        directory: "../"
+        command: "echo 'create a file in the root' > example.txt"
+    tests:
+      example_test:
+        directory: "../"
+        command: "phpcs --standard=phpcs.xml ./"
 
 ```
 
