@@ -1,6 +1,7 @@
 {
   "name": "blueoakinteractive/boi_ci",
   "description": "Continuous integration scripts for Blue Oak Interactive",
+  "version": "6.0.0",
   "require": {
     "symfony/console": "^6",
     "symfony/process": "^6",
