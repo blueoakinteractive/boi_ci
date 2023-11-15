@@ -50,7 +50,7 @@ class Shell extends BaseService
    * @param $dir
    */
   public function setDir($dir) {
-    $this->dir = realpath($dir);
+    $this->dir = $dir;
   }
 
   /**

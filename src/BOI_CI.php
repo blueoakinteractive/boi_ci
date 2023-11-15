@@ -51,6 +51,7 @@ class BOI_CI {
       new Command\Build\Symlinks(),
       new Command\Build\CopyFiles(),
       new Command\Build\Tasks(),
+      new Command\Build\Tests(),
       new Command\Deploy\Git(),
       new Command\Drupal\DrushCommand(),
       new Command\Drupal\DrushRunServer(),
